@@ -278,8 +278,18 @@ export default function Portfolio() {
           </div>
 
           <div className="block b-cream weare" data-reveal>
-            <p className="weare-desc">Half researcher, half engineer — I build the reliability layer between large language models and the people who depend on their answers.</p>
-            <h3 className="weare-h">I make AI <span>you can trust</span> in production.</h3>
+            <div className="weare-row weare-top"><span className="weare-line ink">I make AI</span></div>
+            <span className="weare-rule" />
+            <div className="weare-row weare-mid">
+              <p className="weare-desc">Half researcher, half engineer — I build the reliability layer between large language models and the people who depend on their answers.</p>
+              <span className="weare-line orange">you can trust</span>
+            </div>
+            <span className="weare-rule" />
+            <div className="weare-row weare-bot"><span className="weare-line orange">in production.</span></div>
+            <div className="weare-foot">
+              <span className="weare-tag">(Hello)</span>
+              <span className="weare-count"><i className="weare-bullet" />01 / 02</span>
+            </div>
           </div>
 
           <div className="block b-orange manifesto">
@@ -682,10 +692,21 @@ html,body,#root{background:var(--cream)}
 .b-n{font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:.1em}
 .b-title{font-size:clamp(70px,13vw,200px);font-weight:800;letter-spacing:-.05em;line-height:.8}
 
-.weare{display:flex;flex-direction:column;justify-content:space-between;min-height:90vh}
-.weare-desc{max-width:360px;font-size:15px;line-height:1.5;color:var(--mut)}
-.weare-h{font-size:clamp(40px,7.4vw,108px);font-weight:800;letter-spacing:-.04em;line-height:.92}
-.weare-h span{color:var(--orange)}
+.weare{display:flex;flex-direction:column;min-height:90vh}
+.weare-row{display:flex;align-items:center}
+.weare-top{flex:1}
+.weare-mid{flex:1.2;justify-content:space-between;gap:clamp(24px,5vw,80px)}
+.weare-bot{flex:1;align-items:flex-end}
+.weare-rule{display:block;flex:none;width:100%;height:1px;background:var(--line)}
+.weare-line{font-family:'Geist',system-ui,sans-serif;font-weight:600;font-size:clamp(34px,7.8vw,134px);letter-spacing:-.04em;line-height:.9;white-space:nowrap}
+.weare-line.ink{color:var(--ink)}
+.weare-line.orange{color:var(--orange)}
+.weare-mid .weare-line{margin-left:auto;text-align:right}
+.weare-desc{flex:none;max-width:30ch;font-size:clamp(16px,1.3vw,20px);line-height:1.5;color:var(--ink);text-indent:3em}
+.weare-foot{display:flex;justify-content:space-between;align-items:center;padding-top:clamp(18px,2vw,30px);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em}
+.weare-tag{color:var(--orange)}
+.weare-count{display:inline-flex;align-items:center;gap:8px;color:var(--ink)}
+.weare-bullet{width:7px;height:7px;border-radius:50%;background:var(--ink)}
 
 .manifesto{display:flex;flex-direction:column;justify-content:center;min-height:90vh}
 .mani{display:grid;grid-template-columns:54px 1fr;gap:22px;align-items:baseline;padding:24px 0;border-top:1px solid rgba(255,255,255,.32)}
@@ -897,7 +918,10 @@ html,body,#root{background:var(--cream)}
   .cap-cols{grid-template-columns:1fr}
   .pbar-s{display:none}
   .cult{flex-direction:column;gap:8px;text-align:center}.cult .arr{display:none}
-  .weare,.aim-row{gap:18px}
+  .weare-row{flex:none;align-items:flex-start;padding:clamp(18px,6vw,30px) 0}
+  .weare-mid{flex-direction:column;gap:16px}
+  .weare-mid .weare-line{margin-left:0;text-align:left}
+  .weare-line{white-space:normal}
   .aim-row{grid-template-columns:1fr;gap:10px}
   .stats,.facets,.cap-list{grid-template-columns:1fr}
   .stats{gap:18px}
