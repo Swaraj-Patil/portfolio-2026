@@ -470,7 +470,7 @@ const styles = `
 :root{
   --cream:#ece7df; --ink:#0a0a09; --char:#161514;
   --orange:#fe3b00; --purple:#5a12e8; --blue:#2433f2; --crimson:#fb0f3e; --yellow:#ffee00; --green:#12e33c;
-  --mut:#8a867d; --nav-w:196px; --gap:8px; --ease:cubic-bezier(.22,.61,.36,1);
+  --mut:#8a867d; --line:rgba(10,10,9,.18); --nav-w:196px; --gap:8px; --ease:cubic-bezier(.22,.61,.36,1);
 }
 html,body,#root{background:var(--cream)}
 .app{font-family:'Geist',system-ui,sans-serif;color:var(--ink);background:var(--cream);min-height:100vh;overflow-x:hidden;cursor:none}
@@ -504,7 +504,7 @@ html,body,#root{background:var(--cream)}
 
 /* 00 HERO */
 .hero{height:calc(100vh - var(--gap)*2)}
-.hero-frame{position:relative;height:100%;background:var(--cream);border:1px solid rgba(10,10,9,.16);border-radius:18px;padding:clamp(24px,3vw,38px) clamp(28px,4vw,46px);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transform-origin:center center;animation:crt 1.05s cubic-bezier(.7,0,.3,1) both}
+.hero-frame{position:relative;height:100%;background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:clamp(24px,3vw,38px) clamp(28px,4vw,46px);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transform-origin:center center;animation:crt 1.05s cubic-bezier(.7,0,.3,1) both}
 @keyframes crt{0%{transform:scaleX(.03) scaleY(.0016);filter:brightness(2.6) contrast(1.5)}16%{transform:scaleX(1) scaleY(.0016);filter:brightness(2.6) contrast(1.5)}44%{transform:scaleX(1) scaleY(1.02);filter:brightness(1.7)}60%{transform:scaleX(1) scaleY(.99);filter:brightness(1.18)}100%{transform:none;filter:none}}
 .crt-flash{position:absolute;inset:0;background:#fff;mix-blend-mode:screen;opacity:0;pointer-events:none;animation:flash 1.05s ease both}
 @keyframes flash{0%,15%{opacity:0}20%{opacity:.9}42%{opacity:0}100%{opacity:0}}
@@ -540,7 +540,7 @@ html,body,#root{background:var(--cream)}
 .hello-group{display:flex;flex-direction:column;gap:var(--gap)}
 .block{border-radius:18px;padding:clamp(40px,5vw,84px) clamp(24px,4vw,60px)}
 .b-orange{background:var(--orange);color:#fff}
-.b-cream{background:var(--cream);color:var(--ink);box-shadow:inset 0 0 0 1px rgba(10,10,9,.1)}
+.b-cream{background:var(--cream);color:var(--ink);border:1px solid var(--line)}
 .b-head{background:var(--orange);color:#fff;min-height:90vh;display:flex;flex-direction:column;justify-content:space-between}
 .b-n{font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:.1em}
 .b-title{font-size:clamp(70px,13vw,200px);font-weight:800;letter-spacing:-.05em;line-height:.8}
@@ -640,7 +640,7 @@ html,body,#root{background:var(--cream)}
 .cult span:nth-child(2){flex:1;text-align:center}
 .cult .arr{color:#27e07a;letter-spacing:.22em;font-weight:600}
 
-.prin{background:var(--cream);border-radius:18px;min-height:90vh;display:flex;flex-direction:column;box-shadow:inset 0 0 0 1px rgba(10,10,9,.1);overflow:hidden}
+.prin{background:var(--cream);border-radius:18px;min-height:90vh;display:flex;flex-direction:column;border:1px solid var(--line);overflow:hidden}
 .prin-tabs{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid rgba(10,10,9,.16)}
 .prin-tab{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:clamp(20px,2.4vw,30px) clamp(18px,2.4vw,30px);border-right:1px solid rgba(10,10,9,.16);text-align:left;transition:background .3s,color .3s}
 .prin-tab:last-child{border-right:none}
@@ -657,7 +657,7 @@ html,body,#root{background:var(--cream)}
 .cap-head h3{font-size:clamp(44px,9vw,128px);font-weight:800;letter-spacing:-.04em;line-height:.9;flex:1;text-align:center}
 .cap-side{font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(10,10,9,.5);white-space:nowrap}
 .cap-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
-.cap-col{background:var(--cream);border-radius:18px;box-shadow:inset 0 0 0 1px rgba(10,10,9,.1);padding:clamp(28px,3vw,44px)}
+.cap-col{background:var(--cream);border-radius:18px;border:1px solid var(--line);padding:clamp(28px,3vw,44px)}
 .cap-col-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .cap-col-h h4{font-size:clamp(22px,2.4vw,32px);font-weight:700;letter-spacing:-.01em}
 .cap-col-n{font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid rgba(10,10,9,.35);border-radius:999px;padding:5px 11px}
