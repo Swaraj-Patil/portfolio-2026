@@ -364,8 +364,26 @@ export default function Portfolio() {
 
           {/* thesis (their "Better is different") */}
           <div className="block b-purple thesis" data-reveal>
-            <span className="thesis-lead">Good AI is</span>
-            <h3 className="thesis-word">Grounded.</h3>
+            <span className="thesis-lead">Trust is the</span>
+            <h3 className="thesis-word" aria-label="feature">
+              {[
+                { c: "f", pre: "{" },
+                { c: "e", post: ";" },
+                { c: "a", pre: "<", post: ">" },
+                { c: "t", sup: "*" },
+                { c: "u", pre: "(", post: ")" },
+                { c: "r", post: "/" },
+                { c: "e", post: "}" },
+              ].map((l, i) => (
+                <span className="tw" key={i}>
+                  {l.pre && <span className="tw-g tw-pre" aria-hidden>{l.pre}</span>}
+                  {l.c}
+                  {l.sup && <span className="tw-g tw-sup" aria-hidden>{l.sup}</span>}
+                  {l.post && <span className="tw-g tw-post" aria-hidden>{l.post}</span>}
+                </span>
+              ))}
+              <span className="tw-caret" aria-hidden />
+            </h3>
             <div className="card-foot"><span>( Approach )</span><span>● 02 / 02</span></div>
           </div>
 
@@ -756,6 +774,7 @@ html,body,#root{background:var(--cream)}
   .s-tok,.p-stem,.p-ring,.p-rope,.s-sweep{display:none}
   .s-fill,.p-fill{animation:none;opacity:1}
   .s-fill{clip-path:none}
+  .tw-caret{animation:none;opacity:1}
 }
 .hero-bot{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;position:relative;z-index:2}
 .hero-bot p{max-width:430px;font-size:16px;line-height:1.5}
@@ -863,7 +882,17 @@ html,body,#root{background:var(--cream)}
 
 .thesis{min-height:90vh;display:flex;flex-direction:column;justify-content:space-between}
 .thesis-lead{font-size:clamp(22px,3.2vw,40px);font-weight:500;opacity:.92}
-.thesis-word{font-size:clamp(80px,18vw,280px);font-weight:800;letter-spacing:-.05em;line-height:.82;color:var(--cream)}
+/* hero word built from programming elements (their "different"): mono letters in cream,
+   each with a distinct code-glyph costume in lavender, closed by a blinking caret */
+.thesis-word{display:flex;flex-wrap:nowrap;align-items:flex-end;font-family:'JetBrains Mono',ui-monospace,'SFMono-Regular',monospace;font-size:clamp(38px,10vw,168px);font-weight:800;letter-spacing:-.01em;line-height:.9;color:var(--cream)}
+.tw{position:relative;display:inline-flex;align-items:flex-end}
+.tw-g{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.4em;font-weight:600;color:#cbb9ff;line-height:1;transition:opacity .25s ease}
+.tw-pre{margin-right:.03em;align-self:center}
+.tw-post{margin-left:.03em;align-self:center}
+.tw-sup{position:absolute;top:.05em;right:-.14em;font-size:.34em;color:#fcd34d}
+.tw-caret{display:inline-block;width:.08em;height:.72em;margin-left:.14em;background:var(--cream);align-self:center;animation:twBlink 1.1s ease-in-out infinite}
+.thesis-word:hover .tw-g{opacity:1}
+@keyframes twBlink{0%,100%{opacity:1}50%{opacity:0}}
 
 .cg{min-height:90vh;display:flex;flex-direction:column;justify-content:center}
 .cg-row{display:grid;grid-template-columns:210px 1fr;gap:34px;padding:clamp(34px,5vw,64px) 0;align-items:start}
