@@ -311,6 +311,7 @@ export default function Portfolio() {
           </div>
 
           <div className="block b-orange wins" data-reveal>
+            <AsciiField />
             <span className="wins-ghost" aria-hidden>TRACK RECORD</span>
             <h3 className="wins-h">Track Record</h3>
             <div className="stats">
@@ -533,6 +534,83 @@ function SecHead({ n, t, tone, bare }) {
 }
 function Strip({ a, b }) { return <div className="strip"><span>{a}</span><span>{b}</span></div>; }
 
+function AsciiField() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const parent = canvas.parentElement;
+    const RAMP = " .·:-=+*xo08%#@";            // sparse → dense
+    const DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+    let w = 0, h = 0, cell = 15, cols = 0, rows = 0, raf = 0, last = 0, running = true;
+
+    const resize = () => {
+      const r = parent.getBoundingClientRect();
+      w = r.width; h = r.height;
+      cell = Math.max(12, Math.min(18, Math.round(w / 80)));   // ~80 cols; tune for density/perf
+      canvas.width = Math.floor(w * DPR);
+      canvas.height = Math.floor(h * DPR);
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      ctx.font = `${cell}px 'JetBrains Mono', ui-monospace, monospace`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      cols = Math.ceil(w / cell);
+      rows = Math.ceil(h / cell);
+    };
+
+    const draw = (now) => {
+      const t = now * 0.00016;                 // overall speed
+      const scale = Math.min(w, h) || 1;
+      const cs = [                             // three drifting blob centers
+        { x: (0.50 + 0.30 * Math.sin(t * 0.9)) * w,       y: (0.45 + 0.26 * Math.cos(t * 1.1)) * h },
+        { x: (0.42 + 0.30 * Math.cos(t * 0.7 + 1.3)) * w, y: (0.58 + 0.24 * Math.sin(t * 0.8 + 2.0)) * h },
+        { x: (0.62 + 0.26 * Math.sin(t * 1.2 + 0.6)) * w, y: (0.50 + 0.28 * Math.cos(t * 0.6 + 0.9)) * h },
+      ];
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "rgba(150,30,0,0.5)";    // darker-orange glyphs; tune alpha/darkness
+      for (let j = 0; j < rows; j++) {
+        const py = j * cell + cell / 2;
+        for (let i = 0; i < cols; i++) {
+          const px = i * cell + cell / 2;
+          let f = 0;
+          for (let k = 0; k < cs.length; k++) {
+            const dx = (px - cs[k].x) / scale, dy = (py - cs[k].y) / scale;
+            f += Math.exp(-(dx * dx + dy * dy) * 6);     // smooth metaball bumps
+          }
+          const b = Math.sin(f * 8 - t * 4) * 0.5 + 0.5; // sine banding → contour rings that flow
+          const ch = RAMP[(b * b * (RAMP.length - 1)) | 0];
+          if (ch !== " ") ctx.fillText(ch, px, py);
+        }
+      }
+    };
+
+    const loop = (now) => {
+      raf = requestAnimationFrame(loop);
+      if (!running) return;
+      if (now - last < 40) return;             // throttle ~25fps
+      last = now;
+      draw(now);
+    };
+
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(parent);
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      draw(0);                                 // static single frame
+      return () => ro.disconnect();
+    }
+    const io = new IntersectionObserver(([e]) => { running = e.isIntersecting; }, { threshold: 0 });
+    io.observe(canvas);
+    raf = requestAnimationFrame(loop);
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); };
+  }, []);
+  return <canvas ref={ref} className="ascii-field" aria-hidden="true" />;
+}
+
 /* ════════════════════════════════════════════════════════════════════════ */
 
 const styles = `
@@ -724,12 +802,14 @@ html,body,#root{background:var(--cream)}
 .aim-t em{font-style:normal;color:var(--orange)}
 
 .wins{position:relative;overflow:hidden;min-height:90vh;display:flex;flex-direction:column;justify-content:space-between}
+.wins > *:not(canvas){z-index:1}
 .wins-ghost{position:absolute;left:-1%;top:50%;transform:translateY(-50%);font-size:clamp(90px,19vw,280px);font-weight:800;letter-spacing:-.04em;color:rgba(255,255,255,.12);white-space:nowrap;pointer-events:none;line-height:1}
 .wins-h{position:relative;font-size:clamp(48px,9vw,120px);font-weight:800;letter-spacing:-.04em;line-height:.9}
 .stats{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-top:1px solid rgba(255,255,255,.3);padding-top:30px}
 .stat{display:flex;flex-direction:column;gap:6px}
 .stat-a{font-size:clamp(28px,4vw,52px);font-weight:700;letter-spacing:-.02em}
 .stat-b{font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.08em;opacity:.9}
+.ascii-field{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
 
 .facets{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px);min-height:90vh;align-content:center}
 .facet{display:flex;flex-direction:column;gap:14px}
