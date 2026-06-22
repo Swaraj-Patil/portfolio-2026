@@ -120,6 +120,29 @@ const S_TOKENS = [
   { t: "/* */",  tx: 78,  ty: 230, sx: -150, sy: 60,   r: 22,  s: .9,   d: .68 },
 ];
 
+/* Radial refraction map for the glass cursor — a per-pixel normal map: neutral (128,128) through the
+   clear centre, ramping to full deflection at the rim, so the ring bends the text behind it only at
+   its edges and leaves the centre (under the dot) undistorted. Built once via canvas → PNG data-URI,
+   no deps. Drives backdrop-filter:url(#curGlass) (Chromium only; other engines keep the plain rim).
+   TUNABLES: CLEAR = size of the undistorted centre (0..1); flip the lens (barrel↔pincushion) by
+   negating `scale` on #curGlass below. */
+const GLASS_MAP = (() => {
+  if (typeof document === "undefined") return "";
+  const SIZE = 96, R = SIZE / 2, CLEAR = .52;
+  const cv = document.createElement("canvas"); cv.width = cv.height = SIZE;
+  const ctx = cv.getContext("2d"), img = ctx.createImageData(SIZE, SIZE);
+  for (let y = 0; y < SIZE; y++) for (let x = 0; x < SIZE; x++) {
+    const dx = (x - R + .5) / R, dy = (y - R + .5) / R, dist = Math.min(1, Math.hypot(dx, dy));
+    const edge = dist <= CLEAR ? 0 : (dist - CLEAR) / (1 - CLEAR), k = edge * edge;
+    const ux = dist ? dx / dist : 0, uy = dist ? dy / dist : 0, i = (y * SIZE + x) * 4;
+    img.data[i] = 128 + ux * k * 127;
+    img.data[i + 1] = 128 + uy * k * 127;
+    img.data[i + 2] = 128; img.data[i + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+  return cv.toDataURL();
+})();
+
 /* ════════════════════════════════════════════════════════════════════════ */
 
 export default function Portfolio() {
@@ -172,8 +195,8 @@ export default function Portfolio() {
   useEffect(() => {
     if (!window.matchMedia("(hover: hover)").matches) return;
     let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, raf;
-    const move = (e) => { mx = e.clientX; my = e.clientY; if (dot.current) dot.current.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`; };
-    const loop = () => { rx += (mx - rx) * .16; ry += (my - ry) * .16; if (ring.current) ring.current.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`; raf = requestAnimationFrame(loop); };
+    const move = (e) => { mx = e.clientX; my = e.clientY; };
+    const loop = () => { rx += (mx - rx) * .16; ry += (my - ry) * .16; const t = `translate(${rx}px,${ry}px) translate(-50%,-50%)`; if (ring.current) ring.current.style.transform = t; if (dot.current) dot.current.style.transform = t; raf = requestAnimationFrame(loop); };
     const over = (e) => e.target.closest("[data-h]") && ring.current?.classList.add("g");
     const out = (e) => e.target.closest("[data-h]") && ring.current?.classList.remove("g");
     addEventListener("mousemove", move); document.addEventListener("mouseover", over); document.addEventListener("mouseout", out);
@@ -188,6 +211,12 @@ export default function Portfolio() {
       <style>{styles}</style>
       <div ref={dot} className="cur-dot" aria-hidden />
       <div ref={ring} className="cur-ring" aria-hidden />
+      <svg className="glass-defs" aria-hidden width="0" height="0">
+        <filter id="curGlass" x="-30%" y="-30%" width="160%" height="160%" colorInterpolationFilters="sRGB">
+          <feImage href={GLASS_MAP} preserveAspectRatio="none" x="0" y="0" width="100%" height="100%" result="gmap" />
+          <feDisplacementMap in="SourceGraphic" in2="gmap" scale="14" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
       <div className="grain" aria-hidden />
 
       {/* ── SIDEBAR ──────────────────────────────────── */}
@@ -515,10 +544,16 @@ html,body,#root{background:var(--cream)}
 .app a,.app button{cursor:none;color:inherit;text-decoration:none;border:none;background:none;font:inherit}
 @media (hover:none){.app{cursor:auto}.app a,.app button{cursor:pointer}.cur-dot,.cur-ring{display:none}}
 
-.cur-dot,.cur-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;will-change:transform;mix-blend-mode:difference}
-.cur-dot{width:6px;height:6px;background:#fff;border-radius:50%}
-.cur-ring{width:34px;height:34px;border:1px solid rgba(255,255,255,.7);border-radius:50%;transition:width .3s,height .3s,background .3s}
-.cur-ring.g{width:62px;height:62px;background:rgba(255,255,255,.07)}
+.cur-dot,.cur-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;will-change:transform}
+.cur-dot{width:6px;height:6px;background:#fff;border-radius:50%;mix-blend-mode:difference;z-index:10000}
+/* glass ring: dilute the ink behind it (brightness↑ contrast↓) + bend it at the rim (url map, Chromium);
+   no inset shadows — only an outer hairline rim and a faint drop */
+.cur-ring{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.05);
+  -webkit-backdrop-filter:brightness(1.28) contrast(.82) saturate(1.06);
+  backdrop-filter:brightness(1.28) contrast(.82) saturate(1.06) url(#curGlass);
+  box-shadow:0 0 0 .5px rgba(10,10,9,.06),0 1px 7px rgba(10,10,9,.10);
+  transition:width .3s,height .3s,background .3s}
+.cur-ring.g{width:62px;height:62px;background:rgba(255,255,255,.08)}
 
 .grain{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.055;mix-blend-mode:multiply;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
