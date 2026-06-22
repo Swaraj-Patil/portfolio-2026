@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, ArrowDown, Plus } from "lucide-react";
+import Facet3D from "./Facet3D";
 
 /* ════════════════════════════════════════════════════════════════════════
    CONTENT — edit freely. Presentation is in `styles` at the bottom.
@@ -325,8 +326,11 @@ export default function Portfolio() {
 
           <div className="block b-cream facets">
             {FACETS.map((f) => (
-              <div className="facet" data-reveal key={f.key}>
-                <div className={`facet-img facet--${f.key}`}><span className="facet-grid" aria-hidden /></div>
+              <div className="facet" data-reveal data-h key={f.key}>
+                <div className={`facet-img facet--${f.key}`}>
+                  <span className="facet-grid" aria-hidden />
+                  <Facet3D kind={f.key} />
+                </div>
                 <span className="facet-t">{f.t}</span>
                 <p className="facet-d">{f.d}</p>
               </div>
@@ -820,6 +824,9 @@ html,body,#root{background:var(--cream)}
 .facet-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:26px 26px}
 .facet-t{font-size:clamp(20px,2.4vw,28px);font-weight:600;letter-spacing:-.02em}
 .facet-d{font-size:15px;line-height:1.45;color:var(--mut)}
+/* ── WebGL facet scenes: transparent canvas filling each gradient backdrop ── */
+.facet-canvas{position:absolute;inset:0;z-index:2;cursor:none;touch-action:pan-y}
+.facet-canvas canvas{display:block}
 
 .hl{display:flex;flex-direction:column;justify-content:center;gap:6px;min-height:90vh}
 .hl-label{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--mut);margin-bottom:10px}
