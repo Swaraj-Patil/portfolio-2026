@@ -900,7 +900,7 @@ html,body,#root{background:var(--cream)}
 .cg-tag{display:flex;flex-direction:column;gap:16px}
 .cg-pill{align-self:start;border:1px solid rgba(10,10,9,.4);border-radius:999px;padding:7px 18px;font-family:'JetBrains Mono',monospace;font-size:13px}
 .cg-k{font-size:clamp(22px,2.6vw,34px);font-weight:500;letter-spacing:-.01em}
-.cg-t{font-size:clamp(34px,6.2vw,94px);font-weight:700;letter-spacing:-.03em;line-height:1.0}
+.cg-t{font-size:clamp(34px,6.2vw,94px);font-weight:500;letter-spacing:-.03em;line-height:1.0}
 .cg-t em{font-style:normal;color:var(--purple)}
 .cg .card-foot{margin-top:40px}
 
