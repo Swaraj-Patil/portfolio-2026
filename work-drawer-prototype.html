@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Work drawer: reference prototype</title>
+<style>
+  :root{
+    --page:#f4e9e3; --bar:#0e0c0d; --title:#f6f1ea; --cat:#8b898a;
+    --bar-h:141px;          /* drawer-front height; every motion value below scales off it */
+    --radius:10px;
+    --gap:14px;
+    --tilt:-48.4deg;         /* settled tilt toward the viewer */
+    --persp:3036px;          /* ~21.5 x bar height: weak perspective, top widens ~3.6% */
+    /* settled fan offsets: front 0.184 x bar height, mid 0.085 x bar height, written below as % of the
+       file height (files are 42% of the bar), so they scale with any bar height */
+    /* spring curves are written literally in the transitions below (never via var()), each after a
+       cubic-bezier fallback, so browsers without linear() keep the fallback instead of losing the transition */
+    --ease-out:cubic-bezier(.25,.7,.3,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--page);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+  .docs{width:min(1051px,92vw);margin:72px auto;display:flex;flex-direction:column;gap:var(--gap)}
+  body.measure .docs{position:absolute;left:201px;top:72px;width:1051px;margin:0}
+
+  /* one row = a slot the size of the drawer front; nothing in it ever leaves the slot vertically */
+  .doc{position:relative}                                  /* height comes from the bar (normal flow) */
+
+  /* the files: top-aligned stack behind the front, clipped to the slot top (negative x-inset lets the
+     slightly-wider front files overhang the column like the reference) */
+  .doc-files{position:absolute;left:0;right:0;top:0;height:42%;
+    clip-path:inset(0 -40px 0 -40px);pointer-events:none}
+  .file{position:absolute;inset:0;border-radius:var(--radius) var(--radius) 0 0;
+    transform-origin:50% 0;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.35);
+    transition:transform 130ms cubic-bezier(.4,0,.2,1)}   /* hover-out: fan closes fast, no bounce */
+  .file.back{z-index:1}
+  .file.mid{z-index:2}
+  .file.front{z-index:3}
+
+  /* the drawer front: hinged on its bottom edge, tips TOWARD the viewer */
+  .doc-bar{position:relative;z-index:4;min-height:var(--bar-h);background:var(--bar);border-radius:var(--radius);
+    display:grid;grid-template-columns:1.2fr auto 1fr;align-items:center;gap:24px;padding:0 41px;
+    color:var(--title);
+    transform-origin:50% 100%;
+    transform:perspective(var(--persp)) rotateX(0deg);
+    transition:transform 300ms var(--ease-out) 30ms}       /* hover-out: flattens just after the files start closing */
+  .doc-name{font-size:23px;font-weight:500;letter-spacing:-.02em;color:var(--title)}
+  .doc-cat{justify-self:center;font-size:15px;color:var(--cat)}
+  .doc-logo{justify-self:end;font-size:22px;font-weight:600;color:#fff}
+
+  /* hover-in (desktop pointers only) */
+  @media (hover:hover) and (pointer:fine){
+    .doc:hover .doc-bar,.doc:has(:focus-visible) .doc-bar,.doc.is-open .doc-bar{
+      transform:perspective(var(--persp)) rotateX(var(--tilt));
+      transition:transform 420ms cubic-bezier(.3,1.35,.5,1);
+      transition:transform 420ms linear(0, .17 3%, .62 11%, .87 20%, 1.01 28%, 1.08 40%, 1.06 52%, 1.02 61%, 1 68%, 1)}
+    .doc:hover .file.front,.doc:has(:focus-visible) .file.front,.doc.is-open .file.front{
+      transform:translateY(43.8%) scaleX(1.03);
+      transition:transform 300ms cubic-bezier(.3,1.6,.5,1) 85ms;
+      transition:transform 300ms linear(0, .38 9%, .62 15%, .92 26%, 1.12 36%, 1.21 48%, 1.23 56%, 1.15 70%, 1.04 84%, 1) 85ms}
+    .doc:hover .file.mid,.doc:has(:focus-visible) .file.mid,.doc.is-open .file.mid{
+      transform:translateY(20.2%) scaleX(1.023);
+      transition:transform 380ms cubic-bezier(.3,1.7,.5,1) 115ms;
+      transition:transform 380ms linear(0, .17 3%, .5 12%, 1 21%, 1.17 25%, 1.3 32%, 1.34 40%, 1.3 50%, 1.17 65%, 1.05 82%, 1) 115ms}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .doc-bar,.file{transition:none!important}
+    .doc:hover .doc-bar,.doc:hover .file,.doc:has(:focus-visible) .doc-bar,.doc:has(:focus-visible) .file{transform:none!important}
+  }
+
+  /* placeholder art (swap for real images) */
+  .f-blue{background:linear-gradient(115deg,#1f3fd1,#3d63e8 45%,#7ea0ff)}
+  .f-pink{background:linear-gradient(115deg,#d9536b,#e9879b 50%,#f7c0cb)}
+  .f-gray{background:linear-gradient(115deg,#a9a9a9,#bdbdbd 50%,#d2d2d2)}
+</style>
+</head>
+<body>
+<div class="docs">
+  <article class="doc"><div class="doc-files"><div class="file back f-gray"></div><div class="file mid f-pink"></div><div class="file front f-blue"></div></div>
+    <div class="doc-bar"><h3 class="doc-name">PolicyLens</h3><span class="doc-cat">RAG Application</span><span class="doc-logo">PL</span></div></article>
+  <article class="doc"><div class="doc-files"><div class="file back f-gray"></div><div class="file mid f-pink"></div><div class="file front f-blue"></div></div>
+    <div class="doc-bar"><h3 class="doc-name">MSstatsConvertLLM</h3><span class="doc-cat">LLM Evaluation</span><span class="doc-logo">MS</span></div></article>
+  <article class="doc" id="probe"><div class="doc-files"><div class="file back f-gray"></div><div class="file mid f-pink"></div><div class="file front f-blue"></div></div>
+    <div class="doc-bar"><h3 class="doc-name">Retrace</h3><span class="doc-cat">LLM Observability</span><span class="doc-logo">RT</span></div></article>
+  <article class="doc"><div class="doc-files"><div class="file back f-gray"></div><div class="file mid f-pink"></div><div class="file front f-blue"></div></div>
+    <div class="doc-bar"><h3 class="doc-name">MSstatsShiny</h3><span class="doc-cat">Open Source</span><span class="doc-logo">SH</span></div></article>
+</div>
+<script>if(location.hash==='#measure')document.body.classList.add('measure');</script>
+</body>
+</html>

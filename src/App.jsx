@@ -88,7 +88,12 @@ const CAPABILITIES = [
 const PROJECTS = [
   { key: "policylens", title: "PolicyLens", cat: "RAG Application",
     line: "Cited Q&A over Northeastern, BU, and Harvard faculty handbooks. An ungrounded answer fails instead of rendering.",
-    stack: "React, FastAPI, ChromaDB, Docker", stat: "Every claim cited",
+    stack: "React, FastAPI, ChromaDB, Docker",
+    files: {
+      front: { src: "/work/policylens-front.jpg", pos: "50% 28%" },
+      mid: { src: "/work/policylens-mid.jpg", pos: "50% 50%" },
+      back: { src: "/work/policylens-back.jpg", pos: "50% 30%" },
+    },
     links: [
       { label: "Live", href: "https://policylens-black.vercel.app/" },
       { label: "Video", href: "https://youtu.be/L08XwNNI8zs" },
@@ -96,26 +101,51 @@ const PROJECTS = [
     ] },
   { key: "mscllm", title: "MSstatsConvertLLM", cat: "LLM Evaluation",
     line: "An LLM infers how to map lab data files into a standard schema. I built the metric and benchmark that test when it's right.",
-    stack: "Python, R, Ollama, Slurm GPU cluster", stat: "4 models, 3 formats, 8 prompts",
+    stack: "Python, R, Ollama, Slurm GPU cluster",
+    files: {
+      front: { src: "/work/mscllm-front.jpg", pos: "50% 50%" },
+      mid: { src: "/work/trial-back.jpg", pos: "50% 50%" },
+      back: { src: "/work/trial-mid.jpg", pos: "50% 50%" },
+    },
     note: "Paper in preparation", links: [] },
   { key: "retrace", title: "Retrace", cat: "LLM Observability", status: "Pre-alpha",
     line: "Self-hostable tracing for RAG apps, built to show what retrieval returned: chunks, scores, and whether the answer stayed grounded.",
-    stack: "FastAPI, ClickHouse, PostgreSQL, Next.js", stat: "Retrieval, traced",
+    stack: "FastAPI, ClickHouse, PostgreSQL, Next.js",
+    files: {
+      front: { src: "/work/retrace-front.jpg", pos: "50% 30%" },
+      mid: { src: "/work/retrace-mid.jpg", pos: "50% 50%" },
+      back: { src: "/work/retrace-back.jpg", pos: "50% 50%" },
+    },
     links: [{ label: "Code", href: "https://github.com/Swaraj-Patil/retrace" }] },
   { key: "msstats", title: "MSstatsShiny", cat: "Open Source",
     line: "Peer-reviewed features for a proteomics platform used by research groups worldwide, including a five-PR arc that added metabolomics support.",
-    stack: "R, Shiny, Bioconductor", stat: "5-PR feature arc",
+    stack: "R, Shiny, Bioconductor",
+    files: {
+      front: { src: "/work/msstats-front.jpg", pos: "50% 35%" },
+      mid: { src: "/work/msstats-mid.jpg", pos: "50% 40%" },
+      back: { src: "/work/msstats-back.jpg", pos: "50% 30%" },
+    },
     links: [
       { label: "Site", href: "https://msstats.org/msstatsshiny/" },
       { label: "Repo", href: "https://github.com/Vitek-Lab/MSstatsShiny" },
     ] },
   { key: "mongo", title: "MongoDB TTL", cat: "Systems Research",
     line: "Traced a 3.5–6.6× TTL deletion slowdown through the query planner into the storage engine, and proposed a forward-scan fix.",
-    stack: "MongoDB internals, cursor-level instrumentation", stat: "3.5–6.6×, root-caused",
+    stack: "MongoDB internals, cursor-level instrumentation",
+    files: {
+      front: { src: "/work/mongo-front.jpg", pos: "50% 22%" },
+      mid: { src: "/work/policylens-back.jpg", pos: "50% 50%" },
+      back: { src: "/work/policylens-mid.jpg", pos: "50% 50%" },
+    },
     links: [{ label: "Report", href: "https://docs.google.com/document/d/1XBmWJ42q9-u04TiIN-oxP5gkxYSVcTlcN0pD1SWEpkY/edit?usp=sharing" }] },
   { key: "trial", title: "TrialCompanion AI", cat: "LLM Application",
     line: "Turns 50-page clinical-trial protocols into patient-friendly summaries behind a coordinator review gate. MIT Frontier Hackathon, team of three.",
-    stack: "Gemini, FastAPI, React, Cloud Run", stat: "50+ pages, plain language",
+    stack: "Gemini, FastAPI, React, Cloud Run",
+    files: {
+      front: { src: "/work/trial-front.jpg", pos: "50% 50%" },
+      mid: { src: "/work/trial-mid.jpg", pos: "50% 30%" },
+      back: { src: "/work/trial-back.jpg", pos: "50% 50%" },
+    },
     links: [
       { label: "Video", href: "https://youtu.be/e0fk5fH48WY" },
       { label: "Code", href: "https://github.com/Swaraj-Patil/TrialCompanion" },
@@ -535,21 +565,23 @@ export default function Portfolio() {
           </div>
           <div className="docs">
             {PROJECTS.map((p) => (
-              <article className="doc" key={p.key}>
-                <div className="doc-clip">
-                  <div className={`pv pv--${p.key}`}>
-                    <span className="pv-grid" aria-hidden />
-                    <span className="pv-num">{p.stat}</span>
-                    <span className="pv-tag">{p.stack}</span>
-                  </div>
+              <article className="doc" data-h key={p.key}>
+                <div className="doc-files" aria-hidden="true">
+                  {["back", "mid", "front"].map((layer) => (
+                    <img key={layer} className={`file ${layer}`} src={p.files[layer].src} alt=""
+                         loading="lazy" decoding="async" style={{ objectPosition: p.files[layer].pos }} />
+                  ))}
                 </div>
                 <div className="doc-bar">
+                  {p.links[0] && <a className="doc-hit" href={p.links[0].href} target="_blank"
+                                    rel="noopener noreferrer" aria-hidden="true" tabIndex={-1} />}
                   <div className="doc-main">
                     <h3 className="doc-name">{p.title}</h3>
                     <p className="doc-line">{p.line}</p>
                   </div>
                   <div className="doc-mid">
                     <span className="doc-cat">{p.cat}</span>
+                    <span className="doc-stack">{p.stack}</span>
                     {p.status && <span className="doc-status">{p.status}</span>}
                   </div>
                   <div className="doc-links">
@@ -753,6 +785,8 @@ const styles = `
   --cream:#ece7df; --ink:#0a0a09; --char:#161514;
   --orange:#fe3b00; --purple:#5a12e8; --blue:#2433f2; --crimson:#fb0f3e; --yellow:#ffee00; --green:#12e33c;
   --mut:#8a867d; --line:rgba(10,10,9,.18); --nav-w:196px; --gap:8px; --ease:cubic-bezier(.22,.61,.36,1);
+  /* Work drawer (section 03) — tip + perspective + corner radius; see the drawer block below */
+  --doc-tilt:-48.4deg; --doc-persp:3600px; --doc-radius:18px;
   /* hero monogram face — swap this ONE line to A/B. Alternates already imported above:
      'Bodoni Moda' (dramatic, high-contrast)  ·  'DM Serif Display' (cleaner, sturdier) */
   --sp-font:'Fraunces','Bodoni Moda',Georgia,serif;
@@ -1052,35 +1086,44 @@ html,body,#root{background:var(--cream)}
 .work-group{display:flex;flex-direction:column;gap:var(--gap)}
 .b-ink{background:var(--ink);color:var(--cream)}
 .docs{display:flex;flex-direction:column;gap:14px}
-/* each row owns the perspective for its own lifting preview; the bar itself stays flat */
-.doc{position:relative;perspective:1300px;perspective-origin:50% 100%}
-.doc:hover{z-index:20}
-.doc-bar{position:relative;z-index:2;background:var(--char);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:clamp(30px,3.8vw,52px) clamp(26px,3vw,44px);display:grid;grid-template-columns:1.7fr auto 1fr;align-items:center;gap:24px;transition:background .4s,box-shadow .5s,transform .5s var(--ease)}
-.doc:hover .doc-bar{background:#1d1c19;transform:translateY(-3px);box-shadow:0 36px 70px -28px rgba(0,0,0,.8)}
+/* Work hover is a drawer: the dark bar tips toward the viewer about its bottom edge, revealing three
+   image files that fan down behind it. Ported from work-drawer-prototype.html; don't re-tune by eye. */
+.doc{position:relative}
+.doc-files{position:absolute;left:0;right:0;top:0;height:42%;clip-path:inset(0 -40px 0 -40px);pointer-events:none}
+.file{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--doc-radius) var(--doc-radius) 0 0;transform-origin:50% 0;box-shadow:inset 0 1px 0 rgba(255,255,255,.35);transition:transform 130ms cubic-bezier(.4,0,.2,1)}
+.file.back{z-index:1}.file.mid{z-index:2}.file.front{z-index:3}
+.doc-bar{position:relative;z-index:4;background:#0e0c0d;color:#f6f1ea;border-radius:var(--doc-radius);padding:clamp(30px,3.8vw,52px) clamp(26px,3vw,44px);display:grid;grid-template-columns:1.7fr auto 1fr;align-items:center;gap:24px;transform-origin:50% 100%;transform:perspective(var(--doc-persp)) rotateX(0deg);transition:transform 300ms cubic-bezier(.25,.7,.3,1) 30ms}
+.doc-hit{position:absolute;inset:0;z-index:1;border-radius:inherit}
 .doc-main{min-width:0}
-.doc-name{font-size:clamp(30px,4.6vw,56px);font-weight:600;letter-spacing:-.03em;line-height:1}
-.doc-line{font-family:'Geist',system-ui,sans-serif;font-size:clamp(14px,1.1vw,16px);line-height:1.45;color:rgba(236,231,223,.62);margin-top:10px;max-width:56ch;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.doc-mid{justify-self:center;display:flex;flex-direction:column;align-items:center;gap:8px}
-.doc-cat{font-family:'JetBrains Mono',monospace;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:rgba(236,231,223,.5);text-align:center}
-.doc-status{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:rgba(236,231,223,.7);border:1px solid rgba(236,231,223,.35);border-radius:999px;padding:3px 9px}
-.doc-links{justify-self:end;display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
-.doc-link{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:rgba(236,231,223,.8);border:1px solid rgba(236,231,223,.28);border-radius:999px;padding:8px 14px;transition:background .3s,color .3s}
-.doc-link:hover{background:var(--cream);color:var(--ink)}
-.doc-note{display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);border:1px dashed rgba(236,231,223,.3);border-radius:999px;padding:8px 14px}
-/* preview hinged at the bar's top edge: folded flat (hidden) → stands up leaning back, like lifting a photo off the stack */
-.doc-clip{position:absolute;left:18px;right:18px;bottom:calc(100% - 14px);height:clamp(210px,30vw,360px);border-radius:18px 18px 6px 6px;overflow:hidden;z-index:1;pointer-events:none;transform-origin:50% 100%;transform:rotateX(92deg);opacity:0;transition:transform .62s var(--ease),opacity .35s;box-shadow:0 24px 50px -18px rgba(0,0,0,.6)}
-.doc:hover .doc-clip{transform:rotateX(32deg);opacity:1}
-.pv{position:absolute;inset:0;display:flex;align-items:flex-end;padding:24px;transform:scale(1.06);transition:transform .8s var(--ease)}
-.doc:hover .pv{transform:scale(1)}
-.pv-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:30px 30px}
-.pv-num{position:absolute;top:18px;left:24px;right:24px;font-size:clamp(30px,4.4vw,60px);font-weight:800;letter-spacing:-.03em;line-height:.95;color:rgba(255,255,255,.92);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.pv-tag{position:relative;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.92)}
-.pv--policylens{background:linear-gradient(120deg,#3a1bd6,#7b2ff7 55%,#c084fc)}
-.pv--trial{background:linear-gradient(120deg,#0a8f6e,#14b8a6 55%,#5eead4)}
-.pv--msstats{background:linear-gradient(120deg,#c2410c,#f59e0b 55%,#fcd34d)}
-.pv--mongo{background:linear-gradient(120deg,#04140d,#0b3d24 60%,#10b981)}
-.pv--mscllm{background:linear-gradient(120deg,#4c0519,#be123c 55%,#fda4af)}
-.pv--retrace{background:linear-gradient(120deg,#0f172a,#1d4ed8 55%,#7dd3fc)}
+.doc-name{font-size:clamp(30px,4.6vw,56px);font-weight:600;letter-spacing:-.03em;line-height:1;color:#f6f1ea}
+.doc-line{font-family:'Geist',system-ui,sans-serif;font-size:clamp(14px,1.1vw,16px);line-height:1.45;color:rgba(246,241,234,.62);margin-top:10px;max-width:56ch;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.doc-mid{justify-self:center;display:flex;flex-direction:column;align-items:center;gap:6px}
+.doc-cat{font-family:'Geist',system-ui,sans-serif;font-size:15px;color:#8b898a;text-align:center}
+.doc-stack{font-family:'Geist',system-ui,sans-serif;font-size:13px;color:rgba(246,241,234,.42);text-align:center}
+.doc-status{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:rgba(246,241,234,.72);border:1px solid rgba(246,241,234,.35);border-radius:999px;padding:3px 9px}
+.doc-links{justify-self:end;position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.doc-link{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#f6f1ea;border:1px solid rgba(246,241,234,.32);border-radius:999px;padding:8px 14px;transition:background .3s,color .3s}
+.doc-link:hover,.doc-link:focus-visible{background:#f6f1ea;color:#0e0c0d}
+.doc-note{display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:rgba(246,241,234,.5);border:1px dashed rgba(246,241,234,.5);border-radius:999px;padding:8px 14px}
+@media (hover:hover) and (pointer:fine){
+  .doc:hover .doc-bar,.doc:has(:focus-visible) .doc-bar,.doc.is-open .doc-bar{
+    transform:perspective(var(--doc-persp)) rotateX(var(--doc-tilt));
+    transition:transform 420ms cubic-bezier(.3,1.35,.5,1);
+    transition:transform 420ms linear(0, .17 3%, .62 11%, .87 20%, 1.01 28%, 1.08 40%, 1.06 52%, 1.02 61%, 1 68%, 1)}
+  .doc:hover .file.front,.doc:has(:focus-visible) .file.front,.doc.is-open .file.front{
+    transform:translateY(43.8%) scaleX(1.03);
+    transition:transform 300ms cubic-bezier(.3,1.6,.5,1) 85ms;
+    transition:transform 300ms linear(0, .38 9%, .62 15%, .92 26%, 1.12 36%, 1.21 48%, 1.23 56%, 1.15 70%, 1.04 84%, 1) 85ms}
+  .doc:hover .file.mid,.doc:has(:focus-visible) .file.mid,.doc.is-open .file.mid{
+    transform:translateY(20.2%) scaleX(1.023);
+    transition:transform 380ms cubic-bezier(.3,1.7,.5,1) 115ms;
+    transition:transform 380ms linear(0, .17 3%, .5 12%, 1 21%, 1.17 25%, 1.3 32%, 1.34 40%, 1.3 50%, 1.17 65%, 1.05 82%, 1) 115ms}
+}
+@media (hover:none),(max-width:880px){.doc-files{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .doc-bar,.file{transition:none!important}
+  .doc:hover .doc-bar,.doc:hover .file,.doc:has(:focus-visible) .doc-bar,.doc:has(:focus-visible) .file{transform:none!important}
+}
 
 .about{background:var(--blue);color:#fff}
 .paren{font-size:clamp(30px,5vw,68px);font-weight:700;letter-spacing:-.03em;line-height:1.02;max-width:1100px}
@@ -1171,6 +1214,6 @@ html,body,#root{background:var(--cream)}
   .mani{grid-template-columns:1fr;gap:6px}
   .edu-row{grid-template-columns:1fr;gap:4px}.edu-note{text-align:left}
   .acc-head{grid-template-columns:1fr auto;gap:6px 14px}.acc-org,.acc-when{grid-column:1}
-  .doc-bar{grid-template-columns:1fr;gap:12px}.doc-main,.doc-mid,.doc-links{justify-self:start}.doc-mid{align-items:flex-start}.doc-cat{text-align:left}.doc-links{justify-content:flex-start}.doc-line{max-width:none}.doc:hover .doc-clip{transform:rotateX(22deg)}
+  .doc-bar{grid-template-columns:1fr;gap:12px}.doc-main,.doc-mid,.doc-links{justify-self:start}.doc-mid{align-items:flex-start}.doc-cat,.doc-stack{text-align:left}.doc-links{justify-content:flex-start}.doc-line{max-width:none}
 }
 `;
