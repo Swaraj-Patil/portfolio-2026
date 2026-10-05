@@ -784,7 +784,7 @@ const styles = `
 :root{
   --cream:#ece7df; --ink:#0a0a09; --char:#161514;
   --orange:#fe3b00; --purple:#5a12e8; --blue:#2433f2; --crimson:#fb0f3e; --yellow:#ffee00; --green:#12e33c;
-  --mut:#8a867d; --line:rgba(10,10,9,.18); --ease:cubic-bezier(.22,.61,.36,1);
+  --mut:#8a867d; --line:#0e0c0d; --ease:cubic-bezier(.22,.61,.36,1);
   /* spacing — reference-matched gutters (24/178/28/32 at 1470px); fluid above the 880px breakpoint */
   --pad-edge:clamp(10px,1.63vw,30px);    /* top, bottom, left gutters: 24 at 1470 */
   --pad-right:clamp(14px,2.18vw,40px);   /* right gutter: 32 at 1470 */
@@ -1067,15 +1067,16 @@ html,body,#root{background:var(--cream)}
 .cult span:nth-child(2){flex:1;text-align:center}
 .cult .arr{color:#27e07a;letter-spacing:.22em;font-weight:600}
 
-.prin{background:var(--cream);border-radius:18px;min-height:90vh;display:flex;flex-direction:column;border:1px solid var(--line);overflow:hidden}
-.prin-tabs{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid rgba(10,10,9,.16)}
-.prin-tab{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:clamp(20px,2.4vw,30px) clamp(18px,2.4vw,30px);border-right:1px solid rgba(10,10,9,.16);text-align:left;transition:background .3s,color .3s}
-.prin-tab:last-child{border-right:none}
+.prin{background:var(--cream);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-height:90vh}
+.prin-tabs{display:grid;grid-template-columns:repeat(4,1fr)}
+/* scoped to .prin-tabs so these win over the global .app button border:none reset */
+.prin-tabs .prin-tab{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;min-height:60px;padding:0 27px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);transition:background .3s,color .3s}
+.prin-tabs .prin-tab:first-child{border-left:none}
 .prin-tab:hover{background:rgba(90,18,232,.06)}
 .prin-tab>span:first-child{font-size:clamp(14px,1.5vw,19px);font-weight:600;letter-spacing:-.01em}
-.prin-num{font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid rgba(10,10,9,.35);border-radius:999px;padding:5px 11px}
-.prin-tab.on{color:var(--purple)}
-.prin-tab.on .prin-num{border-color:var(--purple);color:var(--purple)}
+.prin-num{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1;min-width:44px;padding:7px 0;text-align:center;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:999px}
+.prin-tabs .prin-tab.on{color:var(--purple);border-bottom-color:transparent}
+.prin-tab.on .prin-num{background:var(--purple);border-color:var(--purple);color:var(--cream)}
 .prin-panel{flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(40px,5vw,72px) clamp(28px,4vw,60px)}
 .prin-t{font-size:clamp(34px,6vw,84px);font-weight:700;letter-spacing:-.03em;line-height:1.04;color:var(--ink)}
 .prin-t em{font-style:normal;color:var(--purple)}
