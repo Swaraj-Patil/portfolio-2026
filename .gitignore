@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Content audit (contains personal details — not for commit)
+content-audit.md
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

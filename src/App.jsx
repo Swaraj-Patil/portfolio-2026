@@ -10,13 +10,15 @@ import Facet3D from "./Facet3D";
 
 const ME = {
   first: "Swaraj", last: "Patil",
-  discipline: "AI Engineer",
+  discipline: "Software Engineer",
+  availability: "Co-op, Jan–Aug 2027",
   location: "Boston, MA",
-  email: "hello@swarajpatil.dev",            // ← replace
+  email: "patil.swaraj@northeastern.edu",
+  resume: "/Swaraj_Patil_Resume.pdf",
   socials: [
-    { label: "GitHub", href: "#" },
-    { label: "LinkedIn", href: "#" },
-    { label: "Resume", href: "#" },
+    { label: "GitHub", href: "https://github.com/Swaraj-Patil" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/swaraj1703" },
+    { label: "Résumé", href: "/Swaraj_Patil_Resume.pdf" },
   ],
 };
 
@@ -33,73 +35,147 @@ const SECTIONS = [
 
 /* ── 01 HELLO content ── */
 const MANIFESTO = [
-  "A model that can't cite its source has no business reaching a user.",
-  "Most AI breaks the moment it leaves the demo — the real work is making sure it doesn't.",
-  "A complex system isn't impressive until someone can actually navigate it.",
+  "Five years shipping software: banking platforms for Fiserv, a startup team I led, and client work for Amgen.",
+  "I went back to school to go deep on making AI correct, not just convincing.",
+  "Next: an 8-month co-op from January 2027, shipping from day one.",
 ];
 const AIM = [
-  { k: "Challenge", t: (<>AI that dazzles in a demo but <em>falls apart</em> under real-world mess.</>) },
-  { k: "Goal", t: (<>Tools people <em>trust</em> — grounded, auditable, and legible.</>) },
+  { k: "I bring", t: (<>Five years of <em>production</em> habits: ownership, code review, and shipping to real users.</>) },
+  { k: "I'm after", t: (<>Hard problems in <em>AI, full-stack, or data</em> systems, close to the people who use them.</>) },
 ];
-const STATS = [["4.5 yrs", "in production"], ["6+", "products shipped"], ["1", "research lab"]];
+const STATS = [["5 yrs", "shipping production software"], ["2", "research labs at Northeastern"], ["3.84", "MS GPA at Northeastern"]];
 const FACETS = [
-  { key: "ai", t: "AI Engineering", d: "RAG pipelines, LLM integration, grounded generation." },
-  { key: "fs", t: "Full-Stack", d: "React / Next front-ends to FastAPI / Node back-ends." },
-  { key: "re", t: "Research", d: "Computational tooling and systems internals." },
+  { key: "ai", t: "AI Engineering", d: "RAG with enforced citations, LLM evaluation harnesses, and tracing for retrieval pipelines." },
+  { key: "fs", t: "Full-Stack", d: "React and Next.js front-ends on FastAPI, NestJS, and Node back-ends, deployed to AWS and Google Cloud." },
+  { key: "re", t: "Research", d: "Open-source proteomics software, LLM benchmarks on GPU clusters, and federal healthcare data pipelines." },
 ];
 const HIGHLIGHTS = [
-  { mark: "NU", org: "Vitek Lab", kind: "Research", src: "Northeastern",
-    body: "Contributing to MSstatsShiny, an open-source platform used by the global proteomics research community.",
-    tags: ["Research", "R Shiny"] },
+  { mark: "NU", org: "Vitek Lab", kind: "Open Source", src: "Northeastern",
+    body: "Shipping peer-reviewed, tested features to MSstatsShiny, a proteomics platform used by research groups worldwide. Went from zero R and mass spectrometry to merged code in one semester.",
+    tags: ["R", "Shiny", "Open source"] },
+  { mark: "AI", org: "Master's Project", kind: "LLM Evaluation", src: "Vitek Lab",
+    body: "First-author paper in preparation on LLM-inferred data conversion, with a correctness metric benchmarked across local and frontier models.",
+    tags: ["Python", "LLM eval", "Slurm / GPU"] },
+  { mark: "SC", org: "Supply Chain & Information Management Group", kind: "Data Engineering", src: "D'Amore-McKim",
+    body: "Reconciled 5 federal healthcare datasets into a reproducible 47,000-row panel, and rebuilt a variable that prior work had used at face value.",
+    tags: ["Python", "pandas", "statsmodels"] },
   { mark: "DB", org: "MongoDB", kind: "Systems", src: "Independent",
-    body: "Reproduced and root-caused a 3.5–6.6× regression in TTL deletions; correlated with OSDI '23.",
+    body: "Root-caused a 3.5–6.6× regression in TTL deletions to backward index traversal in the storage engine, and proposed a forward-scan fix.",
     tags: ["Systems", "Performance"] },
 ];
 
 /* ── 02–07 content ── */
 const AP_AIM = [
-  { k: "Challenge", t: (<><em>Rigor and resourcefulness</em> in equal measure — MNC discipline, startup speed.</>) },
-  { k: "Goal", t: (<>Make the <em>hard part legible</em> — for the people who actually have to act on it.</>) },
+  { k: "Challenge", t: (<>Most AI fails <em>quietly</em>: confident output, wrong answer, no error.</>) },
+  { k: "Goal", t: (<>Systems that <em>show their work</em>, so the people relying on them can check it.</>) },
 ];
-const PRINCIPLE_BARS = ["Built for", "Production", "& People"];
+const PRINCIPLE_BARS = ["Cited.", "Measured.", "Shipped."];
 const PRINCIPLES = [
-  { k: "Source-Grounded", t: (<>Every answer is tied to a retrieved source. <em>No source, no answer.</em></>) },
-  { k: "Human-in-Loop", t: (<>The model proposes; <em>people decide.</em> Validation lives inside the flow, not bolted on after.</>) },
-  { k: "Production-First", t: (<>Built for the messy real world, <em>not the happy-path demo.</em></>) },
-  { k: "Eval-Driven", t: (<>If I can't measure whether it got better, <em>I don't ship it.</em></>) },
+  { k: "Source-Grounded", t: (<>No source, <em>no answer.</em></>),
+    proof: "PolicyLens enforces citations at the prompt and parser layers, so an ungrounded answer fails instead of rendering." },
+  { k: "Eval-Driven", t: (<>If I can't measure it, <em>I don't ship it.</em></>),
+    proof: "For my Master's Project I built the correctness metric first, then benchmarked four models across three file formats and eight prompts against hand-written ground truth." },
+  { k: "Integrity-First", t: (<>Check the data <em>before the model.</em></>),
+    proof: "In MSstatsShiny I caught a unit fallback that silently made results 1000× off. In a federal dataset, I caught a variable that didn't measure what its name said." },
+  { k: "Production-Ready", t: (<>Built for real users, <em>not the demo.</em></>),
+    proof: "I designed MSstatsShiny's move off a single server to AWS ECS Fargate behind a load balancer, with CDK and CI/CD, sized for 50 concurrent users." },
 ];
 const CAPABILITIES = [
-  { g: "AI / ML", items: ["LLM Integration", "Retrieval-Augmented Generation", "Vector Stores — ChromaDB", "Prompt Engineering", "Document Parsing", "Entity Extraction", "Human-in-the-Loop", "Grounded Generation"] },
-  { g: "Engineering", items: ["React", "Next.js", "TypeScript", "FastAPI", "NestJS", "Node / Express", "GraphQL & REST", "PostgreSQL / MongoDB"] },
-  { g: "Foundations", items: ["Data Structures & Algorithms", "Systems & DB Internals", "R / Shiny", "Docker", "Git / CI", "Performance Profiling", "Cloud — Vercel"] },
+  { g: "AI / LLM", items: ["LLM APIs: Claude, Gemini, Groq, Ollama", "Retrieval-Augmented Generation", "LLM Evaluation & Benchmarking", "Prompt Engineering", "Embeddings & Vector Search", "LLM Observability", "Document Parsing & Extraction", "Agentic Coding: Claude Code"] },
+  { g: "Software", items: ["Python", "TypeScript & JavaScript", "React & Next.js", "Node.js & NestJS", "FastAPI", "REST & GraphQL", "Redux", "Java, SQL, R"] },
+  { g: "Data & Cloud", items: ["PostgreSQL, MongoDB, Redis", "ChromaDB", "AWS: ECS Fargate, ALB, CDK, CodePipeline", "Google Cloud", "Docker & CI/CD", "pandas & statsmodels", "HPC: Slurm, GPU nodes", "Git & Code Review"] },
 ];
 const PROJECTS = [
-  { key: "policylens", title: "PolicyLens", cat: "RAG · Governance Docs", tag: "ChromaDB · Groq", year: "2026" },
-  { key: "trial", title: "TrialCompanion AI", cat: "LLM · Clinical Trials", tag: "FastAPI · Gemini", year: "2025" },
-  { key: "msstats", title: "MSstatsShiny", cat: "Research · Vitek Lab", tag: "R Shiny · Proteomics", year: "2026" },
-  { key: "mongo", title: "MongoDB TTL", cat: "Systems · Independent", tag: "Root-Cause Analysis", year: "2026" },
-  { key: "license", title: "License Service", cat: "Backend · REST API", tag: "Express · Supabase", year: "2025" },
-  { key: "amazone", title: "Amazone", cat: "Full-Stack · MERN", tag: "React · Stripe", year: "2024" },
+  { key: "policylens", title: "PolicyLens", cat: "RAG Application",
+    line: "Cited Q&A over Northeastern, BU, and Harvard faculty handbooks. An ungrounded answer fails instead of rendering.",
+    stack: "React, FastAPI, ChromaDB, Docker", stat: "Every claim cited",
+    links: [
+      { label: "Live", href: "https://policylens-black.vercel.app/" },
+      { label: "Video", href: "https://youtu.be/L08XwNNI8zs" },
+      { label: "Code", href: "https://github.com/Swaraj-Patil/PolicyLens" },
+    ] },
+  { key: "mscllm", title: "MSstatsConvertLLM", cat: "LLM Evaluation",
+    line: "An LLM infers how to map lab data files into a standard schema. I built the metric and benchmark that test when it's right.",
+    stack: "Python, R, Ollama, Slurm GPU cluster", stat: "4 models, 3 formats, 8 prompts",
+    note: "Paper in preparation", links: [] },
+  { key: "retrace", title: "Retrace", cat: "LLM Observability", status: "Pre-alpha",
+    line: "Self-hostable tracing for RAG apps, built to show what retrieval returned: chunks, scores, and whether the answer stayed grounded.",
+    stack: "FastAPI, ClickHouse, PostgreSQL, Next.js", stat: "Retrieval, traced",
+    links: [{ label: "Code", href: "https://github.com/Swaraj-Patil/retrace" }] },
+  { key: "msstats", title: "MSstatsShiny", cat: "Open Source",
+    line: "Peer-reviewed features for a proteomics platform used by research groups worldwide, including a five-PR arc that added metabolomics support.",
+    stack: "R, Shiny, Bioconductor", stat: "5-PR feature arc",
+    links: [
+      { label: "Site", href: "https://msstats.org/msstatsshiny/" },
+      { label: "Repo", href: "https://github.com/Vitek-Lab/MSstatsShiny" },
+    ] },
+  { key: "mongo", title: "MongoDB TTL", cat: "Systems Research",
+    line: "Traced a 3.5–6.6× TTL deletion slowdown through the query planner into the storage engine, and proposed a forward-scan fix.",
+    stack: "MongoDB internals, cursor-level instrumentation", stat: "3.5–6.6×, root-caused",
+    links: [{ label: "Report", href: "https://docs.google.com/document/d/1XBmWJ42q9-u04TiIN-oxP5gkxYSVcTlcN0pD1SWEpkY/edit?usp=sharing" }] },
+  { key: "trial", title: "TrialCompanion AI", cat: "LLM Application",
+    line: "Turns 50-page clinical-trial protocols into patient-friendly summaries behind a coordinator review gate. MIT Frontier Hackathon, team of three.",
+    stack: "Gemini, FastAPI, React, Cloud Run", stat: "50+ pages, plain language",
+    links: [
+      { label: "Video", href: "https://youtu.be/e0fk5fH48WY" },
+      { label: "Code", href: "https://github.com/Swaraj-Patil/TrialCompanion" },
+    ] },
 ];
 const EDUCATION = [
-  { school: "Northeastern University", deg: "M.S. Computer & Information Science", when: "Jan 2026 — May 2028", note: "Khoury College · GPA 3.84 / 4.0" },
-  { school: "VES Institute of Technology", deg: "B.E. Engineering", when: "2017 — 2021", note: "Mumbai · CGPA 7.7 / 10" },
+  { school: "Northeastern University", deg: "M.S. in Computer and Information Science", when: "Jan 2026 – Dec 2027", note: "Khoury College, GPA 3.84 / 4.0" },
+  { school: "VES Institute of Technology", deg: "Bachelor of Engineering", when: "2017 – 2021", note: "Mumbai" },
 ];
 const EXPERIENCE = [
-  { role: "Research Assistant", org: "Northeastern · Vitek Lab", when: "Jan 2026 — Now",
-    points: ["Contributing to MSstatsShiny, an open-source proteomics platform used by the global research community.", "Extended Metamorpheus file-format support and improved the dose-response analysis module.", "Co-coordinating the May Institute computational-proteomics program."],
-    stack: "R Shiny · Python · Proteomics" },
-  { role: "Full-Stack Developer", org: "KPMG (ZS / Amgen)", when: "Sep — Dec 2025",
-    points: ["Led the front-end build of Amgen's ASM Work-Centre dashboard visualizing SQDIP metrics.", "Designed a three-tier hierarchical drill-down filtering system for site-level analytics."],
-    stack: "React · FastAPI · PostgreSQL" },
-  { role: "Technical Lead", org: "Beelogical", when: "Aug 2023 — Aug 2025",
-    points: ["Led front-end engineering on IRYS Cloud — published a custom UI & icon library, built dynamic validated forms.", "Delivered IncBuddy (OTA): Google Maps, XLSX uploads, dynamic PDF generation, Razorpay, SendGrid email."],
-    stack: "Next.js · React · NestJS" },
-  { role: "Senior Software Engineer", org: "Capgemini", when: "Jul 2021 — Aug 2023",
-    points: ["Built React UIs for Fiserv banking accounts using custom hooks, HOCs and Context API.", "Implemented dynamic data filtering and API integrations across production financial platforms."],
-    stack: "React · JavaScript · REST" },
+  { role: "Research Assistant", org: "Northeastern University, Olga Vitek Lab", when: "Jan 2026 – Present",
+    points: [
+      "Ship peer-reviewed, tested features to MSstatsShiny, an open-source analysis platform used by research groups worldwide, including a five-PR arc that extended it from proteomics to metabolomics.",
+      "Caught a silent unit-conversion fallback that made dose-response results 1000× off, and closed it with required fields and input validation.",
+      "Designed the AWS deployment replacing a single-instance server: ECS Fargate behind an Application Load Balancer, CDK infrastructure as code, and CodePipeline CI/CD, sized for 50 concurrent users.",
+      "Master's Project: an LLM-based converter that infers a JSON schema mapping from a data file's headers and sample rows, with a correctness metric benchmarked across models on Northeastern's GPU cluster.",
+      "Co-coordinated May Institute 2026, the lab's annual international computational-proteomics training program.",
+    ],
+    stack: "R, Shiny, Python, AWS CDK, LLMs" },
+  { role: "Research Assistant", org: "Northeastern University, Supply Chain & Information Management Group", when: "Jun 2026 – Present",
+    points: [
+      "Built a reproducible Python pipeline reconciling 5 federal healthcare datasets into a 47,000-row, 90-column panel.",
+      "Proved a stored market-share variable did not measure what its name implied, and rebuilt a county-level users-per-bed measure from a ZIP-to-CBSA crosswalk.",
+      "Delivered 15 publication-format tables (OLS, difference-in-differences, mediation analysis) with robustness checks and handover documentation.",
+    ],
+    stack: "Python, pandas, statsmodels" },
+  { role: "Consultant, Full-Stack Developer", org: "KPMG (Client: ZS Associates / Amgen)", when: "Sep 2025 – Dec 2025",
+    points: [
+      "Led front-end development of a manufacturing operations dashboard for Amgen, tracking safety, quality, delivery, inventory, and productivity metrics for plant decision-makers.",
+      "Built a three-tier hierarchical drill-down filter for site-level KPI analysis, turning loosely specified client requirements into shipped features.",
+    ],
+    stack: "React, FastAPI, PostgreSQL" },
+  { role: "Technical Lead", org: "Beelogical Software Solutions", when: "Aug 2023 – Aug 2025",
+    points: [
+      "Led front-end on IRYS Cloud, a Next.js insurance platform on Google Cloud: owned architecture decisions, hiring, and client communication, and published a reusable component and icon library.",
+      "Delivered IncBuddy, a travel booking platform (React, NestJS, PostgreSQL) with bulk XLSX ingestion, dynamic PDF generation, Razorpay payments, Google Maps, Redis caching, and AWS deployment.",
+      "Built dynamic forms with real-time validation, plus image-cropping and address-validation utilities.",
+    ],
+    stack: "React, Next.js, NestJS, PostgreSQL, Redis, AWS, Google Cloud" },
+  { role: "Senior Software Engineer", org: "Capgemini Technology Services", when: "Jul 2021 – Aug 2023",
+    points: [
+      "Built production React interfaces for Fiserv banking platforms, with dynamic data filtering and API integrations across multiple client accounts.",
+      "Kept shared state manageable across large UIs with custom hooks, higher-order components, and the Context API.",
+    ],
+    stack: "React, JavaScript, REST" },
 ];
-const INDEX_ITEMS = ["OSDI '23 — TTL & storage-engine internals", "Evaluating RAG — retrieval metrics that matter", "R Shiny for reproducible science", "Prompt patterns for grounded generation"];
+const INDEX_NOW = [
+  { t: "Writing a first-author paper from my Master's Project on LLM-based data conversion", m: "Fall 2026" },
+  { t: "Building Retrace, open-source observability for RAG pipelines", m: "Pre-alpha" },
+  { t: "Co-writing a research paper from the federal healthcare data analysis", m: "Fall 2026" },
+  { t: "Taking CS 5800 Algorithms, with a searchable reference I built for it", m: "Fall 2026" },
+];
+const INDEX_ARCHIVE = [
+  { t: "SectorStress: MATLAB stress metrics served through FastAPI to a React dashboard", m: "2026", href: "https://www.youtube.com/watch?v=AZLlDVpRSx4" },
+  { t: "Algorithms Cheatsheet: a searchable CS 5800 reference with zero dependencies", m: "2026", href: "https://swaraj-patil.github.io/algorithms-cheatsheet/" },
+  { t: "License Service: REST licensing API with tiered plans and multi-account activations", m: "2025", href: "https://wtc-licensing.vercel.app" },
+  { t: "SMS Verification: an Android phone turned into an SMS gateway with a dashboard and API", m: "2025", href: "https://sms-verification-ten.vercel.app" },
+  { t: "Longitudinal Sensor Dashboard: time-series views of passive sensor data", m: "2025", href: "https://longitudinal-sensor.onrender.com/" },
+  { t: "Reporter Dashboard: a feedback dashboard for civic reporting", m: "2025", href: "https://reporter-dashboard2.vercel.app/" },
+];
 
 /* ── 00 hero monogram: symbols that trace the "S" then fuse into it. Coords are in the SVG
    viewBox (0 0 600 340): (tx,ty) = resting spot ON the S outline, (sx,sy) = scattered start
@@ -240,7 +316,7 @@ export default function Portfolio() {
             <div className="crt-flash" aria-hidden />
             <header className="hero-top">
               <span>{ME.first}<br />{ME.last}</span>
-              <span className="ar">An Unusual<br />{ME.discipline}</span>
+              <span className="ar">{ME.discipline}<br />{ME.availability}</span>
             </header>
 
             <div className="mono">
@@ -263,7 +339,7 @@ export default function Portfolio() {
             </div>
 
             <footer className="hero-bot">
-              <p>I build LLM- &amp; RAG-powered systems that turn dense source material into clear, auditable insight.</p>
+              <p>Five years building production software, now an MS student at Northeastern working on LLM and data systems you can check.</p>
               <button className="cue" data-h onClick={() => go("hello")}>Scroll <ArrowDown size={15} strokeWidth={2} /></button>
             </footer>
           </div>
@@ -282,7 +358,7 @@ export default function Portfolio() {
             <div className="weare-row weare-top"><span className="weare-line ink">I make AI</span></div>
             <span className="weare-rule" />
             <div className="weare-row weare-mid">
-              <p className="weare-desc">Half researcher, half engineer — I build the reliability layer between large language models and the people who depend on their answers.</p>
+              <p className="weare-desc">Now at Northeastern, I build the layer between language models and the people who rely on them: cited answers, measured accuracy, and clean data.</p>
               <span className="weare-line orange">you can trust</span>
             </div>
             <span className="weare-rule" />
@@ -302,7 +378,7 @@ export default function Portfolio() {
           </div>
 
           <div className="block b-cream aim" data-reveal>
-            <div className="aim-head"><span className="aim-label">The aim</span><h3>I build to:</h3></div>
+            <div className="aim-head"><span className="aim-label">The fit</span><h3>What I bring, and what I'm after.</h3></div>
             {AIM.map((a, i) => (
               <div className="aim-row" key={i}>
                 <span className="aim-pill">{String(i + 1).padStart(2, "0")} · {a.k}</span>
@@ -322,7 +398,7 @@ export default function Portfolio() {
             </div>
           </div>
 
-          <Strip a="↓  FIVE YEARS MAKING PRODUCTS" b="NOW BUILDING THE AI LAYER  ↓" />
+          <Strip a="↓  FROM BANKING PLATFORMS TO RESEARCH LABS" b="NOW BUILDING AI YOU CAN VERIFY  ↓" />
 
           <div className="block b-cream facets">
             {FACETS.map((f) => (
@@ -412,7 +488,7 @@ export default function Portfolio() {
           {/* culture strip */}
           <div className="cult">
             <span className="arr">↓ ↓ ↓</span>
-            <span>GROUNDED FROM PIPELINE TO INTERFACE</span>
+            <span>FROM RAW DATA TO ANSWERS YOU CAN CHECK</span>
             <span className="arr">↓ ↓ ↓</span>
           </div>
 
@@ -426,7 +502,10 @@ export default function Portfolio() {
               ))}
             </div>
             <div className="prin-panel">
-              <p className="prin-t">{PRINCIPLES[prin].t}</p>
+              <div>
+                <p className="prin-t">{PRINCIPLES[prin].t}</p>
+                <p className="prin-proof"><span>In practice</span>{PRINCIPLES[prin].proof}</p>
+              </div>
               <div className="card-foot oc"><span>( Approach )</span><span>● 02 / 04</span></div>
             </div>
           </div>
@@ -456,18 +535,32 @@ export default function Portfolio() {
           </div>
           <div className="docs">
             {PROJECTS.map((p) => (
-              <article className="doc" data-h key={p.key}>
+              <article className="doc" key={p.key}>
                 <div className="doc-clip">
                   <div className={`pv pv--${p.key}`}>
                     <span className="pv-grid" aria-hidden />
-                    <span className="pv-num">{p.title.slice(0, 2).toUpperCase()}</span>
-                    <span className="pv-tag">{p.cat}</span>
+                    <span className="pv-num">{p.stat}</span>
+                    <span className="pv-tag">{p.stack}</span>
                   </div>
                 </div>
                 <div className="doc-bar">
-                  <h3 className="doc-name">{p.title}</h3>
-                  <span className="doc-cat">{p.cat}</span>
-                  <span className="doc-tag">{p.tag} <ArrowUpRight size={16} strokeWidth={1.5} /></span>
+                  <div className="doc-main">
+                    <h3 className="doc-name">{p.title}</h3>
+                    <p className="doc-line">{p.line}</p>
+                  </div>
+                  <div className="doc-mid">
+                    <span className="doc-cat">{p.cat}</span>
+                    {p.status && <span className="doc-status">{p.status}</span>}
+                  </div>
+                  <div className="doc-links">
+                    {p.links.length > 0
+                      ? p.links.map((l) => (
+                          <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" data-h className="doc-link">
+                            {l.label} <ArrowUpRight size={14} strokeWidth={1.6} />
+                          </a>
+                        ))
+                      : <span className="doc-note">{p.note}</span>}
+                  </div>
                 </div>
               </article>
             ))}
@@ -478,10 +571,12 @@ export default function Portfolio() {
         {/* ── 04 ABOUT ──────────────────────────────── */}
         <section id="about" className="sec about">
           <SecHead n="04" t="About" tone="light" />
-          <h3 className="paren" data-reveal>An <span>(</span>A<span>)</span>I Engineer who makes complex systems <em>legible</em>.</h3>
+          <h3 className="paren" data-reveal>A software engineer who makes complex systems <em>legible</em>.</h3>
           <p className="lead lead--blue" data-reveal>
-            Master's student at Northeastern researching computational tooling in the Vitek Lab. Five years building production
-            web systems before turning to the AI layer. I like the problems where the hard part is making complexity navigable.
+            Five years of software engineering, from React interfaces for Fiserv's banking platforms to Technical Lead at a
+            startup, owning architecture, hiring, and client communication. In 2026 I started an MS at Northeastern to go deep
+            on AI correctness, and I now research in two labs. Next: an 8-month co-op from January 2027, then full-time from
+            January 2028.
           </p>
           <div className="edu" data-reveal>
             <h4 className="col-h light">Education</h4>
@@ -500,7 +595,7 @@ export default function Portfolio() {
         {/* ── 05 EXPERIENCE ─────────────────────────── */}
         <section id="experience" className="sec experience">
           <SecHead n="05" t="Experience" tone="light" />
-          <div className="bar-pill" data-reveal>ROLES — CLICK TO EXPAND</div>
+          <div className="bar-pill" data-reveal>CLICK A ROLE TO EXPAND</div>
           <div className="acc">
             {EXPERIENCE.map((e, i) => (
               <div className={`acc-item ${open === i ? "open" : ""}`} data-reveal key={i}>
@@ -523,10 +618,11 @@ export default function Portfolio() {
         {/* ── 06 CONTACT ────────────────────────────── */}
         <section id="contact" className="sec contact">
           <SecHead n="06" t="Let's talk." tone="ink" />
-          <a className="mail" href={`mailto:${ME.email}`} data-h data-reveal>{ME.email}<ArrowUpRight size={40} strokeWidth={1} /></a>
+          <p className="avail" data-reveal>Open to an 8-month co-op, January to August 2027. Based in Boston and open to relocating.</p>
+          <a className="mail" href={`mailto:${ME.email}`} data-h data-reveal><span className="mail-txt">{ME.email}</span><ArrowUpRight size={40} strokeWidth={1} /></a>
           <div className="foot">
-            <div className="socials">{ME.socials.map((s) => <a key={s.label} href={s.href} data-h>{s.label}<ArrowUpRight size={13} strokeWidth={1.6} /></a>)}</div>
-            <span>{ME.location} · {time} EST · © {new Date().getFullYear()}</span>
+            <div className="socials">{ME.socials.map((s) => <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" data-h>{s.label}<ArrowUpRight size={13} strokeWidth={1.6} /></a>)}</div>
+            <span>{ME.location} · {time} ET · © {new Date().getFullYear()}</span>
           </div>
         </section>
 
@@ -534,11 +630,23 @@ export default function Portfolio() {
         {/* ── 07 INDEX ──────────────────────────────── */}
         <section id="index" className="sec index">
           <SecHead n="07" t="Index" tone="ink" />
-          <p className="lead lead--ink" data-reveal>A running index of the papers, tools and ideas shaping how I build. <em>Placeholder — to be populated.</em></p>
-          <ul className="idx" data-reveal>{INDEX_ITEMS.map((x, i) => <li key={i}><span>{String(i + 1).padStart(2, "0")}</span>{x}</li>)}</ul>
-          <div className="sub" data-reveal>
-            <input placeholder="you@email.com" aria-label="email" />
-            <button data-h onClick={(e) => e.preventDefault()}>Notify me</button>
+          <p className="lead lead--ink" data-reveal>Everything else, indexed: what I'm working on right now, and smaller builds that didn't make the Work list.</p>
+          <h4 className="col-h ink" data-reveal>Now</h4>
+          <ul className="idx" data-reveal>{INDEX_NOW.map((x, i) => (
+            <li key={i}><span className="idx-t">{x.t}</span><span className="idx-m">{x.m}</span></li>
+          ))}</ul>
+          <h4 className="col-h ink" data-reveal>Archive</h4>
+          <ul className="idx" data-reveal>{INDEX_ARCHIVE.map((x, i) => (
+            <li key={i}>
+              <a className="idx-link" href={x.href} target="_blank" rel="noopener noreferrer" data-h>
+                <span className="idx-t">{x.t}</span>
+                <span className="idx-m">{x.m} <ArrowUpRight size={15} strokeWidth={1.6} /></span>
+              </a>
+            </li>
+          ))}</ul>
+          <div className="idx-cta" data-reveal>
+            <a className="idx-btn" href={ME.resume} target="_blank" rel="noopener noreferrer" data-h>View résumé</a>
+            <a className="idx-btn ghost" href={`mailto:${ME.email}`} data-h>Email me</a>
           </div>
         </section>
       </main>
@@ -926,6 +1034,8 @@ html,body,#root{background:var(--cream)}
 .prin-panel{flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(40px,5vw,72px) clamp(28px,4vw,60px)}
 .prin-t{font-size:clamp(34px,6vw,84px);font-weight:700;letter-spacing:-.03em;line-height:1.04;color:var(--ink)}
 .prin-t em{font-style:normal;color:var(--purple)}
+.prin-proof{margin-top:28px;max-width:62ch;font-size:clamp(15px,1.3vw,18px);line-height:1.5;color:var(--ink)}
+.prin-proof span{display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--purple);margin-bottom:8px}
 
 .cap-head{background:var(--purple);color:var(--cream);border-radius:18px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:clamp(26px,3vw,44px) clamp(24px,4vw,50px);min-height:22vh}
 .cap-head h3{font-size:clamp(44px,9vw,128px);font-weight:800;letter-spacing:-.04em;line-height:.9;flex:1;text-align:center}
@@ -945,25 +1055,32 @@ html,body,#root{background:var(--cream)}
 /* each row owns the perspective for its own lifting preview; the bar itself stays flat */
 .doc{position:relative;perspective:1300px;perspective-origin:50% 100%}
 .doc:hover{z-index:20}
-.doc-bar{position:relative;z-index:2;background:var(--char);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:clamp(30px,3.8vw,52px) clamp(26px,3vw,44px);display:grid;grid-template-columns:1.2fr auto 1fr;align-items:center;gap:24px;transition:background .4s,box-shadow .5s,transform .5s var(--ease)}
+.doc-bar{position:relative;z-index:2;background:var(--char);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:clamp(30px,3.8vw,52px) clamp(26px,3vw,44px);display:grid;grid-template-columns:1.7fr auto 1fr;align-items:center;gap:24px;transition:background .4s,box-shadow .5s,transform .5s var(--ease)}
 .doc:hover .doc-bar{background:#1d1c19;transform:translateY(-3px);box-shadow:0 36px 70px -28px rgba(0,0,0,.8)}
+.doc-main{min-width:0}
 .doc-name{font-size:clamp(30px,4.6vw,56px);font-weight:600;letter-spacing:-.03em;line-height:1}
-.doc-cat{justify-self:center;font-family:'JetBrains Mono',monospace;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:rgba(236,231,223,.5)}
-.doc-tag{justify-self:end;display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:rgba(236,231,223,.8)}
+.doc-line{font-family:'Geist',system-ui,sans-serif;font-size:clamp(14px,1.1vw,16px);line-height:1.45;color:rgba(236,231,223,.62);margin-top:10px;max-width:56ch;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.doc-mid{justify-self:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.doc-cat{font-family:'JetBrains Mono',monospace;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:rgba(236,231,223,.5);text-align:center}
+.doc-status{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:rgba(236,231,223,.7);border:1px solid rgba(236,231,223,.35);border-radius:999px;padding:3px 9px}
+.doc-links{justify-self:end;display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.doc-link{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:rgba(236,231,223,.8);border:1px solid rgba(236,231,223,.28);border-radius:999px;padding:8px 14px;transition:background .3s,color .3s}
+.doc-link:hover{background:var(--cream);color:var(--ink)}
+.doc-note{display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);border:1px dashed rgba(236,231,223,.3);border-radius:999px;padding:8px 14px}
 /* preview hinged at the bar's top edge: folded flat (hidden) → stands up leaning back, like lifting a photo off the stack */
 .doc-clip{position:absolute;left:18px;right:18px;bottom:calc(100% - 14px);height:clamp(210px,30vw,360px);border-radius:18px 18px 6px 6px;overflow:hidden;z-index:1;pointer-events:none;transform-origin:50% 100%;transform:rotateX(92deg);opacity:0;transition:transform .62s var(--ease),opacity .35s;box-shadow:0 24px 50px -18px rgba(0,0,0,.6)}
 .doc:hover .doc-clip{transform:rotateX(32deg);opacity:1}
 .pv{position:absolute;inset:0;display:flex;align-items:flex-end;padding:24px;transform:scale(1.06);transition:transform .8s var(--ease)}
 .doc:hover .pv{transform:scale(1)}
 .pv-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:30px 30px}
-.pv-num{position:absolute;top:14px;right:20px;font-size:clamp(64px,10vw,110px);font-weight:800;line-height:1;color:rgba(255,255,255,.16)}
+.pv-num{position:absolute;top:18px;left:24px;right:24px;font-size:clamp(30px,4.4vw,60px);font-weight:800;letter-spacing:-.03em;line-height:.95;color:rgba(255,255,255,.92);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .pv-tag{position:relative;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.92)}
 .pv--policylens{background:linear-gradient(120deg,#3a1bd6,#7b2ff7 55%,#c084fc)}
 .pv--trial{background:linear-gradient(120deg,#0a8f6e,#14b8a6 55%,#5eead4)}
 .pv--msstats{background:linear-gradient(120deg,#c2410c,#f59e0b 55%,#fcd34d)}
 .pv--mongo{background:linear-gradient(120deg,#04140d,#0b3d24 60%,#10b981)}
-.pv--license{background:linear-gradient(120deg,#1e293b,#475569 55%,#94a3b8)}
-.pv--amazone{background:linear-gradient(120deg,#9f1239,#ef4444 55%,#fb923c)}
+.pv--mscllm{background:linear-gradient(120deg,#4c0519,#be123c 55%,#fda4af)}
+.pv--retrace{background:linear-gradient(120deg,#0f172a,#1d4ed8 55%,#7dd3fc)}
 
 .about{background:var(--blue);color:#fff}
 .paren{font-size:clamp(30px,5vw,68px);font-weight:700;letter-spacing:-.03em;line-height:1.02;max-width:1100px}
@@ -999,7 +1116,10 @@ html,body,#root{background:var(--cream)}
 .acc-stack{display:inline-block;margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
 
 .contact{background:var(--yellow);color:var(--ink)}
-.mail{display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:clamp(30px,7vw,112px);font-weight:700;letter-spacing:-.04em;line-height:1;padding:clamp(34px,5vw,56px) 0;border-top:1px solid rgba(10,10,9,.25);border-bottom:1px solid rgba(10,10,9,.25);transition:color .35s}
+.avail{font-size:clamp(18px,2vw,26px);font-weight:500;max-width:40ch;margin-bottom:28px}
+.mail{display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:clamp(24px,5.2vw,84px);font-weight:700;letter-spacing:-.04em;line-height:1;padding:clamp(34px,5vw,56px) 0;border-top:1px solid rgba(10,10,9,.25);border-bottom:1px solid rgba(10,10,9,.25);transition:color .35s}
+.mail-txt{min-width:0;overflow-wrap:anywhere}
+.mail svg{flex:none}
 .mail:hover{color:#fff}
 .foot{display:flex;justify-content:space-between;align-items:center;margin-top:40px;flex-wrap:wrap;gap:18px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:rgba(10,10,9,.7)}
 .socials{display:flex;gap:22px}
@@ -1007,13 +1127,19 @@ html,body,#root{background:var(--cream)}
 
 .index{background:var(--green);color:var(--ink)}
 .lead--ink{margin-top:0}
-.idx{list-style:none;margin-top:clamp(40px,5vw,64px);border-top:1px solid rgba(10,10,9,.2)}
-.idx li{display:flex;gap:22px;align-items:baseline;font-size:clamp(20px,3vw,34px);font-weight:500;letter-spacing:-.02em;padding:22px 0;border-bottom:1px solid rgba(10,10,9,.2)}
-.idx li span{font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(10,10,9,.55)}
-.sub{display:flex;gap:8px;margin-top:40px;max-width:480px}
-.sub input{flex:1;background:rgba(255,255,255,.55);border:1px solid rgba(10,10,9,.25);border-radius:999px;padding:15px 22px;font-size:15px;color:var(--ink);cursor:none}
-.sub input::placeholder{color:rgba(10,10,9,.5)}
-.sub button{background:var(--ink);color:var(--green);border-radius:999px;padding:15px 26px;font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.index .col-h{margin-top:clamp(40px,5vw,60px)}
+.col-h.ink{color:rgba(10,10,9,.6);border-bottom:1px solid rgba(10,10,9,.28)}
+.idx{list-style:none;border-top:1px solid rgba(10,10,9,.2)}
+.idx li{display:flex;gap:22px;align-items:baseline;justify-content:space-between;font-size:clamp(20px,3vw,34px);font-weight:500;letter-spacing:-.02em;padding:22px 0;border-bottom:1px solid rgba(10,10,9,.2)}
+.idx-link{display:flex;width:100%;gap:22px;align-items:baseline;justify-content:space-between;transition:opacity .25s}
+.idx-link:hover{opacity:.6}
+.idx-t{flex:1;min-width:0}
+.idx-m{font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(10,10,9,.55);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.idx-cta{display:flex;gap:12px;margin-top:40px;flex-wrap:wrap}
+.idx-btn{display:inline-flex;align-items:center;background:var(--ink);color:var(--green);border-radius:999px;padding:15px 26px;font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.08em;transition:filter .3s,background .3s,color .3s}
+.idx-btn:hover{filter:brightness(1.12)}
+.idx-btn.ghost{background:none;color:var(--ink);border:1px solid rgba(10,10,9,.4)}
+.idx-btn.ghost:hover{background:var(--ink);color:var(--green)}
 
 /* ── RESPONSIVE ───────────────────────────────── */
 @media (max-width:880px){
@@ -1045,6 +1171,6 @@ html,body,#root{background:var(--cream)}
   .mani{grid-template-columns:1fr;gap:6px}
   .edu-row{grid-template-columns:1fr;gap:4px}.edu-note{text-align:left}
   .acc-head{grid-template-columns:1fr auto;gap:6px 14px}.acc-org,.acc-when{grid-column:1}
-  .doc-bar{grid-template-columns:1fr;gap:10px}.doc-cat,.doc-tag{justify-self:start}.doc:hover .doc-clip{transform:rotateX(22deg)}
+  .doc-bar{grid-template-columns:1fr;gap:12px}.doc-main,.doc-mid,.doc-links{justify-self:start}.doc-mid{align-items:flex-start}.doc-cat{text-align:left}.doc-links{justify-content:flex-start}.doc-line{max-width:none}.doc:hover .doc-clip{transform:rotateX(22deg)}
 }
 `;
