@@ -292,7 +292,7 @@ export default function Portfolio() {
   }, []);
 
   useEffect(() => {
-    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.setAttribute("data-reveal", "in"); io.unobserve(e.target); } }), { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
     document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
@@ -1021,7 +1021,7 @@ html,body,#root{background:var(--cream)}
 .sec-h.light{color:#fff}.sec-h.dark{color:var(--cream)}.sec-h.ink{color:var(--ink)}
 
 [data-reveal]{opacity:0;transform:translateY(38px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
-[data-reveal].in{opacity:1;transform:none}
+[data-reveal="in"]{opacity:1;transform:none}
 
 .lead{font-size:clamp(19px,2.4vw,30px);max-width:920px;font-weight:400;line-height:1.4}
 
