@@ -36,7 +36,7 @@ const SECTIONS = [
 
 /* ── 01 HELLO content ── */
 const MANIFESTO = [
-  "Five years shipping software: banking platforms for Fiserv, a startup team I led, and client work for Amgen.",
+  "Five years shipping software: banking platforms for Fiserv, a startup team I led, and client work for KPMG.",
   "I went back to school to go deep on making AI correct, not just convincing.",
   "Next: an 8-month co-op from January 2027, shipping from day one.",
 ];
