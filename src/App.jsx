@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, ArrowDown, Plus } from "lucide-react";
 import Facet3D from "./Facet3D";
+import HeroMonogram from "./HeroMonogram";
 
 /* ════════════════════════════════════════════════════════════════════════
    CONTENT — edit freely. Presentation is in `styles` at the bottom.
@@ -207,25 +208,6 @@ const INDEX_ARCHIVE = [
   { t: "Reporter Dashboard: a feedback dashboard for civic reporting", m: "2025", href: "https://reporter-dashboard2.vercel.app/" },
 ];
 
-/* ── 00 hero monogram: symbols that trace the "S" then fuse into it. Coords are in the SVG
-   viewBox (0 0 600 340): (tx,ty) = resting spot ON the S outline, (sx,sy) = scattered start
-   offset, r/s = start tumble + scale, d = stagger (ordered top->bottom so they draw, then get
-   absorbed, in order). */
-const S_TOKENS = [
-  { t: "</>",    tx: 185, ty: 72,  sx: 140,  sy: -90,  r: 25,  s: .6,   d: 0,   ac: true },
-  { t: "import", tx: 150, ty: 62,  sx: 40,   sy: -150, r: -18, s: .7,   d: .05 },
-  { t: "{ }",    tx: 112, ty: 66,  sx: -120, sy: -110, r: 30,  s: 1.3,  d: .1 },
-  { t: "def",    tx: 92,  ty: 92,  sx: -160, sy: -40,  r: -22, s: .8,   d: .16 },
-  { t: "===",    tx: 98,  ty: 118, sx: -150, sy: 30,   r: 15,  s: .55,  d: .22 },
-  { t: "&&",     tx: 125, ty: 140, sx: -90,  sy: 90,   r: -28, s: 1.2,  d: .28 },
-  { t: "#",      tx: 150, ty: 158, sx: 0,    sy: 120,  r: 20,  s: .7,   d: .33 },
-  { t: "py",     tx: 175, ty: 178, sx: 110,  sy: 90,   r: -15, s: .9,   d: .38 },
-  { t: ";",      tx: 192, ty: 200, sx: 160,  sy: 30,   r: 28,  s: 1.35, d: .44 },
-  { t: "js",     tx: 182, ty: 228, sx: 150,  sy: 70,   r: -20, s: .6,   d: .5 },
-  { t: "ts",     tx: 148, ty: 246, sx: 30,   sy: 140,  r: 18,  s: .8,   d: .56 },
-  { t: "()=>{}", tx: 108, ty: 248, sx: -110, sy: 120,  r: -25, s: .7,   d: .62 },
-  { t: "/* */",  tx: 78,  ty: 230, sx: -150, sy: 60,   r: 22,  s: .9,   d: .68 },
-];
 
 /* Radial refraction map for the glass cursor — a per-pixel normal map: neutral (128,128) through the
    clear centre, ramping to full deflection at the rim, so the ring bends the text behind it only at
@@ -350,22 +332,7 @@ export default function Portfolio() {
             </header>
 
             <div className="mono">
-              <svg className="mono-svg" viewBox="0 0 600 340" role="img" aria-label="SP">
-                {/* P — fixed stem throws a rope from its top, catches the ring off-right, reels it into the bowl */}
-                <rect className="p-stem" x="338" y="54" width="32" height="208" rx="16" />
-                <path className="p-rope" d="M354 58 Q354 58 354 58" />
-                <circle className="p-ring" cx="402" cy="120" r="50" />
-                {/* S — mono tokens arrange along the S outline, then the solid letter sweeps down and absorbs them */}
-                {S_TOKENS.map((tk, i) => (
-                  <text key={i} className={`s-tok${tk.ac ? " ac" : ""}`} x={tk.tx} y={tk.ty}
-                    textAnchor="middle" dominantBaseline="central"
-                    style={{ "--sx": `${tk.sx}px`, "--sy": `${tk.sy}px`, "--r": `${tk.r}deg`, "--s": tk.s, animationDelay: `${1.3 + tk.d}s` }}>{tk.t}</text>
-                ))}
-                {/* solid classic-font letters resolve on top */}
-                <defs><clipPath id="sSweep"><rect className="s-sweep" x="38" y="46" width="236" height="226" /></clipPath></defs>
-                <text className="ink-letter s-fill" clipPath="url(#sSweep)" x="150" y="262" textAnchor="middle">S</text>
-                <text className="ink-letter p-fill" x="330" y="262" textAnchor="start">P</text>
-              </svg>
+              <HeroMonogram />
             </div>
 
             <footer className="hero-bot">
@@ -776,9 +743,7 @@ function AsciiField() {
 /* ════════════════════════════════════════════════════════════════════════ */
 
 const styles = `
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1&display=swap');
-/* hero-monogram alternates (loaded so you can A/B by editing only the --sp-font line below) */
-@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@700&family=DM+Serif+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -796,9 +761,6 @@ const styles = `
   --nav-w:calc(var(--pad-edge) + var(--nav-card));
   /* Work drawer (section 03) — tip + perspective + corner radius; see the drawer block below */
   --doc-tilt:-48.4deg; --doc-persp:3600px; --doc-radius:18px;
-  /* hero monogram face — swap this ONE line to A/B. Alternates already imported above:
-     'Bodoni Moda' (dramatic, high-contrast)  ·  'DM Serif Display' (cleaner, sturdier) */
-  --sp-font:'Fraunces','Bodoni Moda',Georgia,serif;
 }
 html,body,#root{background:var(--cream)}
 .app{font-family:'Geist',system-ui,sans-serif;color:var(--ink);background:var(--cream);min-height:100vh;overflow-x:hidden;cursor:none}
@@ -846,87 +808,11 @@ html,body,#root{background:var(--cream)}
 @keyframes flash{0%,15%{opacity:0}20%{opacity:.9}42%{opacity:0}100%{opacity:0}}
 .hero-top{display:flex;justify-content:space-between;font-size:15px;line-height:1.25;font-weight:500;position:relative;z-index:2}
 .hero-top .ar{text-align:right}
-/* 00 monogram — S and P build in parallel: symbols trace an "S" then fuse into it, while the P's stem throws a rope that catches a ring and reels it into the bowl. One SVG, ~5.5s infinite loop. */
+/* 00 hero monogram — canvas renderer; see src/HeroMonogram.jsx */
 .mono{position:absolute;inset:0;z-index:1;pointer-events:none;display:flex;align-items:center;justify-content:center}
-.mono-svg{width:min(86%,1000px);height:auto;overflow:visible}
-/* high opsz + a little SOFT/WONK gives Fraunces its character; ignored by the alternates */
-.ink-letter{font-family:var(--sp-font);font-weight:640;font-optical-sizing:auto;font-variation-settings:'opsz' 144,'wght' 640,'SOFT' 30,'WONK' 1;font-size:300px;fill:var(--ink)}
-.s-tok{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:17px;fill:var(--ink);transform-box:fill-box;transform-origin:center;opacity:0;animation:sTok 5.5s var(--ease) infinite both}
-.s-tok.ac{fill:var(--orange)}
-.s-fill{animation:sFill 5.5s var(--ease) 1.3s infinite both}
-.s-sweep{transform-box:fill-box;transform-origin:50% 0%;transform:scaleY(0);animation:sSweep 5.5s var(--ease) 1.3s infinite both}
-.p-stem{fill:var(--ink);transform-box:fill-box;transform-origin:center;opacity:0;animation:pStem 5.5s var(--ease) 1.3s infinite both}
-.p-rope{fill:none;stroke:var(--ink);stroke-width:7;stroke-linecap:round;opacity:0;animation:pRope 5.5s var(--ease) 1.3s infinite both}
-.p-ring{fill:none;stroke:var(--ink);stroke-width:17;stroke-linecap:round;stroke-dasharray:250 110;transform-box:fill-box;transform-origin:center;opacity:0;animation:pRing 5.5s var(--ease) 1.3s infinite both}
-.p-fill{transform-box:fill-box;transform-origin:center;opacity:0;animation:pFill 5.5s var(--ease) 1.3s infinite both}
-/* S tokens: fly in from scattered slots to their spot on the S outline, hold, then fade as the solid letter sweeps past */
-@keyframes sTok{
-  0%{opacity:0;transform:translate(var(--sx),var(--sy)) rotate(var(--r)) scale(var(--s))}
-  7%{opacity:1}
-  22%{opacity:1;transform:translate(0px,0px) rotate(0deg) scale(1)}
-  30%{opacity:1;transform:translate(0px,0px) rotate(0deg) scale(1)}
-  42%{opacity:0;transform:translate(0px,0px) rotate(0deg) scale(1)}
-  90%{opacity:0;transform:translate(0px,0px) rotate(0deg) scale(1)}
-  100%{opacity:0;transform:translate(var(--sx),var(--sy)) rotate(var(--r)) scale(var(--s))}
-}
-/* solid S fades in under the tokens, then a top->bottom wipe reveals it fully (the "fuse") */
-@keyframes sFill{ 0%{opacity:0} 4%{opacity:1} 86%{opacity:1} 96%{opacity:0} 100%{opacity:0} }
-@keyframes sSweep{ 0%{transform:scaleY(0)} 28%{transform:scaleY(0)} 46%{transform:scaleY(1)} 96%{transform:scaleY(1)} 100%{transform:scaleY(0)} }
-/* P stem appears in place early (alongside the S build), holds, then tucks inward (scaleX) + fades as the glyph takes over */
-@keyframes pStem{
-  0%{opacity:0;transform:scaleX(1) scaleY(.78)}
-  6%{opacity:0;transform:scaleX(1) scaleY(.78)}
-  12%{opacity:1;transform:scaleX(1) scaleY(1)}
-  44%{opacity:1;transform:scaleX(1) scaleY(1)}
-  52%{opacity:0;transform:scaleX(.66) scaleY(1)}
-  100%{opacity:0;transform:scaleX(1) scaleY(.78)}
-}
-/* rope thrown from the stem top: launch -> catch (taut, with recoil) -> reel in tracking the ring -> retract & fade.
-   d is keyed to the SAME % timeline as pRing's translateX so the rope end stays on the ring (now docking at 402,120). */
-@keyframes pRope{
-  0%{opacity:0;d:path("M354 58 Q354 58 354 58")}
-  13%{opacity:0;d:path("M354 58 Q354 58 354 58")}
-  15%{opacity:1;d:path("M354 58 Q452 158 545 116")}
-  18%{opacity:1;d:path("M354 58 Q480 170 600 120")}
-  20%{opacity:1;d:path("M354 58 Q482 116 605 120")}
-  24%{opacity:1;d:path("M354 58 Q476 119 598 120")}
-  30%{opacity:1;d:path("M354 58 Q453 115 552 120")}
-  36%{opacity:1;d:path("M354 58 Q426 111 498 120")}
-  42%{opacity:1;d:path("M354 58 Q398 105 442 120")}
-  46%{opacity:1;d:path("M354 58 Q378 99 402 120")}
-  50%{opacity:.4;d:path("M354 58 Q366 82 378 104")}
-  52%{opacity:0;d:path("M354 58 Q354 58 354 58")}
-  100%{opacity:0;d:path("M354 58 Q354 58 354 58")}
-}
-/* ring: waits off-right, the rope catches it (~18%, tug recoil), reels in spinning+breathing, docks at the bowl (46%),
-   then CONTRACTS toward the bowl centre + fades — so it shrinks inside the glyph silhouette, never protruding */
-@keyframes pRing{
-  0%{opacity:0;transform:translateX(205px) rotate(0deg) scale(.7)}
-  14%{opacity:0;transform:translateX(205px) rotate(0deg) scale(.7)}
-  18%{opacity:1;transform:translateX(198px) rotate(40deg) scale(1.04)}
-  21%{opacity:1;transform:translateX(205px) rotate(62deg) scale(.92)}
-  24%{transform:translateX(196px) rotate(96deg) scale(1.14)}
-  30%{transform:translateX(150px) rotate(172deg) scale(.85)}
-  36%{transform:translateX(96px) rotate(250deg) scale(1.16)}
-  42%{transform:translateX(40px) rotate(322deg) scale(.92)}
-  46%{opacity:1;transform:translateX(0px) rotate(360deg) scale(1)}
-  52%{opacity:0;transform:translateX(0px) rotate(360deg) scale(.38)}
-  100%{opacity:0;transform:translateX(205px) rotate(0deg) scale(.7)}
-}
-/* glyph P: stays hidden under the primitives, then fades to FULL opacity by 50% (on top, covering them as they
-   contract away) — full no later than the primitives finish fading (52%), so two P shapes are never visible at once */
-@keyframes pFill{
-  0%{opacity:0;transform:scale(.96)}
-  44%{opacity:0;transform:scale(.98)}
-  50%{opacity:1;transform:scale(1)}
-  86%{opacity:1;transform:scale(1)}
-  96%{opacity:0;transform:scale(.96)}
-  100%{opacity:0;transform:scale(.96)}
-}
+.mono-canvas-wrap{width:min(86%,1000px);aspect-ratio:1000/568;position:relative}
+.mono-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 @media (prefers-reduced-motion:reduce){
-  .s-tok,.p-stem,.p-ring,.p-rope,.s-sweep{display:none}
-  .s-fill,.p-fill{animation:none;opacity:1}
-  .s-fill{clip-path:none}
   .tw-caret{animation:none;opacity:1}
 }
 .hero-bot{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;position:relative;z-index:2}
@@ -1204,7 +1090,7 @@ html,body,#root{background:var(--cream)}
   .tab.active{flex-grow:0}
   .tab-l{font-size:13px}.tab-n,.tab-bar{display:none}
   .screen{margin-left:0;padding:var(--pad-edge);padding-top:calc(56px + var(--pad-edge))}
-  .hero{height:auto}.hero-frame{min-height:80vh}.mono-svg{width:94%}
+  .hero{height:auto}.hero-frame{min-height:80vh}.mono-canvas-wrap{width:94%}
   .b-head,.weare,.manifesto,.aim,.wins,.facets,.hl{min-height:auto}
   .b-head,.weare,.manifesto,.aim,.wins,.facets,.hl{min-height:auto}
   .ap-head,.thesis,.cg,.prin{min-height:auto}
