@@ -276,13 +276,13 @@ const EXPERIENCE = [
     stack: "Python, pandas, statsmodels" },
   { role: "Consultant, Full-Stack Developer", org: "KPMG (Client: ZS Associates / Amgen)", when: "Sep 2025 – Dec 2025",
     points: [
-      "Led front-end development of a manufacturing operations dashboard for Amgen, tracking safety, quality, delivery, inventory, and productivity metrics for plant decision-makers.",
+      "Led the development of a manufacturing operations dashboard for Amgen, tracking safety, quality, delivery, inventory, and productivity metrics for plant decision-makers.",
       "Built a three-tier hierarchical drill-down filter for site-level KPI analysis, turning loosely specified client requirements into shipped features.",
     ],
     stack: "React, FastAPI, PostgreSQL" },
   { role: "Technical Lead", org: "Beelogical Software Solutions", when: "Aug 2023 – Aug 2025",
     points: [
-      "Led front-end on IRYS Cloud, a Next.js insurance platform on Google Cloud: owned architecture decisions, hiring, and client communication, and published a reusable component and icon library.",
+      "Led the tech team on IRYS Cloud, a Next.js insurance platform on Google Cloud: owned architecture decisions, hiring, and client communication, and published a reusable component and icon library.",
       "Delivered IncBuddy, a travel booking platform (React, NestJS, PostgreSQL) with bulk XLSX ingestion, dynamic PDF generation, Razorpay payments, Google Maps, Redis caching, and AWS deployment.",
       "Built dynamic forms with real-time validation, plus image-cropping and address-validation utilities.",
     ],
